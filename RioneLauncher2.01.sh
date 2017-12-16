@@ -29,7 +29,7 @@ src=/home/$USER/git/sample
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
 #自動アップデート
-CurrentVer=2.01
+CurrentVer=2.00
 echo
 echo "Ver.$CurrentVer"
 echo
@@ -52,6 +52,8 @@ echo
 
 #条件変更シグナル
 ChangeConditions=0
+
+find . -name "* *" | rename 's/ //g'
 
 if [ ! -z $1 ]; then
 
