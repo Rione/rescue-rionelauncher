@@ -29,7 +29,7 @@ src=/home/$USER/git/sample
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
 #自動アップデート
-CurrentVer=2.00
+CurrentVer=2.01
 echo
 echo "Ver.$CurrentVer"
 echo
