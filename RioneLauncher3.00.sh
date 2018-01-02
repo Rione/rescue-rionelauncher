@@ -21,7 +21,7 @@ src=/home/$USER/git/sample
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
-CurrentVer=2.07
+CurrentVer=3.00
 os=`uname`
 phase=0
 clear
