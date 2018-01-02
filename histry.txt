@@ -4,5 +4,5 @@ url https://raw.githubusercontent.com/MiglyA/bash-rescue/master/rescue_delete.sh
 
 
 ■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-RioneLauncher-newVersion 2.07 726
-RioneLauncher-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher2.07.sh
+RioneLauncher-newVersion 3.00 726
+RioneLauncher-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher3.00.sh
