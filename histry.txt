@@ -8,5 +8,5 @@ RioneLauncher-newVersion 3.00 892
 RioneLauncher-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher3.00.sh
 
 ■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-RioneLauncher2-newVersion 3.00 892
+RioneLauncher2-newVersion 4.00 892
 RioneLauncher2-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher3.00.sh
