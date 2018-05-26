@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=4.01
+CurrentVer=4.02
 os=`uname`
 LOCATION=`pwd`
 phase=0
@@ -184,12 +184,12 @@ fi
 #環境変数変更
 IFS=$'\n'
 
-#if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat RioneLauncher.sh | grep -v '^\s*#' | grep -c ""` - `grep -n '？↓' RioneLauncher.sh | sed -n 1P | sed 's/:/ /g' | awk '{print $1}'`)) ]; then
+if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat RioneLauncher.sh | grep -v '^\s*#' | grep -c ""` - `grep -n '？↓' RioneLauncher.sh | sed -n 1P | sed 's/:/ /g' | awk '{print $1}'`)) ]; then
 
-	#sed -i "s/$CurrentVer/1.00/g" update.sh
-	#bash update.sh
+	sed -i "s/$CurrentVer/1.00/g" update.sh
+	bash update.sh
 
-#fi
+fi
 
 #マップディレクトリの登録
 if [ ! -f $GIT_ADDRESS/$SERVER_NAME/$MAP/scenario.xml ] || [ $ChangeConditions -eq 1 ] || [ -z $MAP ]; then
