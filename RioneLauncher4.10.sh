@@ -43,7 +43,7 @@ histry_Ver=0
 echo '#!/bin/bash' > update.sh
 echo "filename=$0" >> update.sh
 echo "CurrentVer=$CurrentVer" >> update.sh
-echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt | grep "RioneLauncher2-newVersion"`' >> update.sh
+echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt | grep "RioneLauncher3-newVersion"`' >> update.sh
 echo 'echo $histry_Ver > histry_date' >> update.sh
 echo 'if [' ! \`echo \$histry_Ver '|' awk \'{print \$2}\'\` = \$CurrentVer ]\; 'then' >> update.sh
 echo IFS=$\''\'n\' >> update.sh
