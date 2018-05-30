@@ -52,12 +52,12 @@ echo 'rm $filename' >> update.sh
 echo if [ -z \`echo '$histry_Ver' '|' awk \'{print '$4'}\'\` ]\; then >> update.sh
 echo cat temp '|' head -\$\(grep -n \'？↓\' temp '|' sed \'s/:/ /g\' '|' sed -n 1P '|' awk \'{print \$1}\'\) \> temp >> update.sh
 echo 'cat temp > $filename' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt '| grep' "RioneLauncher2-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
+echo curl \`curl https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt '| grep' "RioneLauncher3-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
 echo sed -i 1,"\`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print \$1}'\`"d temp >> update.sh
 echo 'cat temp >> $filename' >> update.sh
 echo 'rm temp' >> update.sh
 echo 'else' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt '| grep' "RioneLauncher2-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
+echo curl \`curl https://raw.githubusercontent.com/MiglyA/bash-rescue/master/histry.txt '| grep' "RioneLauncher3-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
 echo 'fi' >> update.sh
 echo 'fi' >> update.sh
 
