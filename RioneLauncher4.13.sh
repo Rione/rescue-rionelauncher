@@ -101,7 +101,7 @@ last(){
 
 		echo
 	  	echo
-	  	echo "シミュレーションを中断します...　_:(´ཀ`」 ∠):_"
+	  	echo "シミュレーションを中断します...Σ(ﾟДﾟﾉ)ﾉ"
 		echo
 
 		if [ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]; then
