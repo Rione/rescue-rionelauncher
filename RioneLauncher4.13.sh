@@ -101,7 +101,7 @@ last(){
 
 		echo
 	  	echo
-	  	echo "シミュレーションを中断します...(´ ･ω･｀)ｼｮﾎﾞﾝ"
+	  	echo "シミュレーションを中断します...　_:(´ཀ`」 ∠):_"
 		echo
 
 		if [ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]; then
@@ -125,7 +125,7 @@ errerbreak(){
 	echo
 	echo
 	echo "内部で何らかのエラーが発生しました"
-	echo "シミュレーションを終了します...m(._.*)mﾍﾟｺｯ"
+	echo "シミュレーションを終了します....(｡-人-｡) ｺﾞﾒｰﾝ"
 	echo
 
 	killcommand
@@ -847,7 +847,7 @@ if [ -f src.log ]; then
 	#sucsess
 	if [ `grep -c "Done." src.log` -ge 1 ]; then
 
-		echo "All Green"
+		echo "(*'-')b"
 		echo
 
 	fi
