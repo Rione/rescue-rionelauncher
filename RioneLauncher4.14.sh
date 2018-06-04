@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=4.13
+CurrentVer=4.14
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -168,12 +168,12 @@ fi
 #環境変数変更
 IFS=$'\n'
 
-#if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat RioneLauncher.sh | grep -v '^\s*#' | grep -c ""` - `grep -n '？↓' RioneLauncher.sh | sed -n 1P | sed 's/:/ /g' | awk '{print $1}'`)) ]; then
+if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat RioneLauncher.sh | grep -v '^\s*#' | grep -c ""` - `grep -n '？↓' RioneLauncher.sh | sed -n 1P | sed 's/:/ /g' | awk '{print $1}'`)) ]; then
 
-#	sed -i "s/$CurrentVer/1.00/g" update.sh
-#	bash update.sh
+	sed -i "s/$CurrentVer/1.00/g" update.sh
+	bash update.sh
 
-#fi
+fi
 
 #サーバーディレクトリの登録
 if [ -z $SERVER ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SERVER/boot/start-comprun.sh ]; then
