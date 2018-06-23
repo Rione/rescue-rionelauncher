@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=4.19
+CurrentVer=4.20
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -63,7 +63,6 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
-	#kill `ps aux | grep "bash -c" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 
 }
 
@@ -181,7 +180,7 @@ fi
 
 #条件変更シグナル
 ChangeConditions=0
-debug=960
+debug=962
 
 find ~/ -type d -name ".*" -prune -o -type f -print | rename 's/ //g' &>/dev/null
 
@@ -196,9 +195,9 @@ IFS=$'\n'
 
 if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) ]; then
 
-	#sed -i "s/$CurrentVer/1.00/g" update.sh
-	#bash update.sh
-	echo tet
+	sed -i "s/$CurrentVer/1.00/g" update.sh
+	bash update.sh
+
 fi
 
 #サーバーディレクトリの登録
