@@ -193,12 +193,7 @@ fi
 #環境変数変更
 IFS=$'\n'
 
-if [ -e histry_date ] && [ ! `cat histry_date | awk '{print $3}'` = $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) ]; then
-
-	sed -i "s/$CurrentVer/1.00/g" update.sh
-	bash update.sh
-
-fi
+[ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #サーバーディレクトリの登録
 if [ -z $SERVER ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SERVER/boot/start-comprun.sh ]; then
@@ -761,7 +756,12 @@ rm src.log &>/dev/null
 touch src.log
 touch server.log
 
-[ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
+if [ -f histry_date ] && [ ! `cat $LOCATION/histry_date | awk '{print $3}'` = $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) ]; then
+
+	sed -i "s/$CurrentVer/1.00/g" update.sh
+	bash update.sh
+
+fi
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////
 
