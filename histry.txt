@@ -11,9 +11,5 @@ RioneLauncher2-newVersion 4.10 894 all
 RioneLauncher2-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher_migration2.sh
 
 ■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-RioneLauncher3-newVersion 5.00 962
-RioneLauncher3-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher5.00.sh
-
-■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-RioneLauncher3-newVersion 5.00 962
+RioneLauncher3-newVersion 5.01 962
 RioneLauncher3-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher.sh
