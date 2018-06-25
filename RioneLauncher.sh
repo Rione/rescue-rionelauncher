@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.01
+CurrentVer=5.02
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -785,7 +785,7 @@ fi
 gnome-terminal --geometry=60x6 -x  bash -c  "
 
 	#[C+ctrl]検知
-	trap 'last2' {2,3,15}
+	trap 'last2' {1,2,3}
 	last2(){
 		echo -en "\x01" > $LOCATION/.signal
 		exit 1
