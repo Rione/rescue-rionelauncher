@@ -2,34 +2,741 @@ Done.
 [ RCRS ADF Version 2.3.0 (build 20180514T081132Z) ]
 
 [START ] Connect to server (host:localhost, port:7000)
-[FINISH] Connect AmbulanceCentre (success:0)
-[FINISH] Connect FireStation (success:0)
-[FINISH] Connect PoliceOffice (success:0)
-[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@17af2b6e (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@2c432184 (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonFire@48b8d304 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@4461ee78 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@7cada978 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.office.OfficeAmbulance@39d0e1d8 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@6ccd8e6c (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.office.OfficeFire@4df8a939 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.office.OfficePolice@53003ecb (NON_PRECOMPUTE)
+[FINISH] Connect AmbulanceCentre (success:1)
 [SampleKMeans] Cluster : 10
 [SampleKMeans] Cluster : 10
+[FINISH] Connect FireStation (success:1)
+[FINISH] Connect PoliceOffice (success:1)
 [SampleKMeans] Cluster : 10
-[FINISH] Connect PoliceForce (success:1)
-[FINISH] Connect FireBrigade (success:1)
-[FINISH] Connect AmbulanceTeam (success:1)
-[FINISH] Done connecting to server (3 agents)
-279
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-279
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-279
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-279
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-279
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-976
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-976
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-976
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
-976
-[896, 902, 903, 904, 968, 330, 910, 974, 911, 912, 336, 913, 914, 915, 916, 917, 918, 919, 920, 921, 922, 923, 924, 349, 925, 926, 927, 928, 929, 932, 933, 297, 314]
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@57dc69c1 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@434bae65 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@28146e0a (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@25e71346 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@61bf2ad8 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@654eaa1 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@4b459032 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5c0ad164 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@51eb9543 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@33ad8d00 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@631b188f (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@43a98db5 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@26ac5316 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@6b80ee85 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@182d1d0 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@73108a0a (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@33b60c24 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@48bc687d (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@11a306a2 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@19b9f4cc (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@3cbbf537 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@67204d66 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@4a5482c4 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@126b5d43 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@154ea7ad (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@7190b2cb (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@2f2fc2aa (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@7265dbd (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5d50fe80 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@122cb48c (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@29f2455c (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@2dffd264 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@1ea986d9 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@114c31d7 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5b0662b4 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@207f5512 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@3bb73939 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5139668a (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@3384d5d (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@19279b6e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5fbc253e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@6708f80 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@652314f2 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@11cbe122 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@6611f997 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@380ae708 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@40813047 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@f8fc4bf (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@51dc7c4e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@4f9b3487 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@20ccb0fc (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@1eda00c6 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@4e8a9280 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@2e2527ed (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@1db88ac4 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@2c52ec0c (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@1aa91b55 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@37b0f949 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@212af383 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@7e6c0404 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@1faef2e4 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@740a65ac (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@17e75236 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@33de58ef (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@259bede6 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@3a085fc5 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@1a236697 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@1a14e934 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@4114186a (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@49cfd13b (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5bf01195 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@71b6bec3 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@58c25867 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@24afc5ec (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@7cc179c9 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@374479d5 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@5621c4f1 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@6c7eb12c (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@27e620d (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@77f83267 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@7db2e334 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@5a8bfb5e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@730c7fbf (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@2cd6240e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@73e8983c (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@51cf344e (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[FINISH] Connect PoliceForce (success:30)
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@64144dbf (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 10
+[FINISH] Connect FireBrigade (success:30)
+[FINISH] Connect AmbulanceTeam (success:30)
+[FINISH] Done connecting to server (93 agents)
+6261
+road now
+[34922, 31195]
+
+33357
+road now
+[33367, 33392, 4155, 20261, 4956, 4956]
+
+5019
+road now
+[34581, 34581, 16189, 7755, 15171, 8358]
+
+7512
+road now
+[1326, 3237]
+
+4416
+road now
+[7278, 721]
+
+31108
+road now
+[35089, 31106, 31109]
+
+1682
+road now
+[7116, 8439, 3930]
+
+4551
+road now
+[23359, 34244, 16162, 2877]
+
+33707
+road now
+[33706, 9240, 23588, 28575, 5145, 14903]
+
+31257
+road now
+[5577, 14930, 31264, 31258, 35161, 31265]
+
+7899
+road now
+[34546, 1710]
+
+31114
+road now
+[5172, 21938]
+
+9231
+road now
+[3606, 7026]
+
+4353
+road now
+[32855, 32855, 18006, 5640, 2139]
+
+9141
+road now
+[33989, 13920, 10378, 6045]
+
+3525
+road now
+[452, 2184]
+
+34462
+road now
+[34511, 5793, 34512, 34510, 34597, 34608, 9051]
+
+6873
+road now
+[2778, 3759]
+
+32538
+road now
+[2130, 28357, 32539, 32544, 21231, 10803]
+
+4524
+road now
+[35526, 7359, 20494, 17245, 34584]
+
+3075
+road now
+[3327, 18784, 2373]
+
+6126
+road now
+[11153, 22059, 33613, 29313, 3264]
+
+4047
+road now
+[11716, 10540, 6486, 15567, 3066]
+
+32809
+road now
+[4983, 27828, 24140, 5757, 15311, 32808]
+
+28548
+road now
+[5595, 33567, 28532]
+
+30884
+road now
+[30883, 30859]
+
+6990
+road now
+[2553, 29162, 3651]
+
+16080
+road now
+[2643, 5127, 16064]
+
+32646
+road now
+[32645, 32647, 1873]
+
+8088
+road now
+[1482, 27190, 9150]
+
+6261
+road now
+[34922, 31195]
+
+33357
+road now
+[33367, 33392, 4155, 20261, 4956, 4956]
+
+5019
+road now
+[34581, 34581, 16189, 7755, 15171, 8358]
+
+7512
+road now
+[1326, 3237]
+
+4416
+road now
+[7278, 721]
+
+31108
+road now
+[35089, 31106, 31109]
+
+1682
+road now
+[7116, 8439, 3930]
+
+4551
+road now
+[23359, 34244, 16162, 2877]
+
+33707
+road now
+[33706, 9240, 23588, 28575, 5145, 14903]
+
+31257
+road now
+[5577, 14930, 31264, 31258, 35161, 31265]
+
+7899
+road now
+[34546, 1710]
+
+31114
+road now
+[5172, 21938]
+
+9231
+road now
+[3606, 7026]
+
+4353
+road now
+[32855, 32855, 18006, 5640, 2139]
+
+9141
+road now
+[33989, 13920, 10378, 6045]
+
+3525
+road now
+[452, 2184]
+
+34462
+road now
+[34511, 5793, 34512, 34510, 34597, 34608, 9051]
+
+32538
+road now
+[2130, 28357, 32539, 32544, 21231, 10803]
+
+6873
+road now
+[2778, 3759]
+
+4524
+road now
+[35526, 7359, 20494, 17245, 34584]
+
+3075
+road now
+[3327, 18784, 2373]
+
+33613
+road now
+[871, 871, 6126]
+
+4047
+road now
+[11716, 10540, 6486, 15567, 3066]
+
+32809
+road now
+[4983, 27828, 24140, 5757, 15311, 32808]
+
+28548
+road now
+[5595, 33567, 28532]
+
+30884
+road now
+[30883, 30859]
+
+6990
+road now
+[2553, 29162, 3651]
+
+16080
+road now
+[2643, 5127, 16064]
+
+32646
+road now
+[32645, 32647, 1873]
+
+8088
+road now
+[1482, 27190, 9150]
+
+6261
+road now
+[34922, 31195]
+
+33357
+road now
+[33367, 33392, 4155, 20261, 4956, 4956]
+
+5019
+road now
+[34581, 34581, 16189, 7755, 15171, 8358]
+
+7512
+road now
+[1326, 3237]
+
+4416
+road now
+[7278, 721]
+
+31108
+road now
+[35089, 31106, 31109]
+
+1682
+road now
+[7116, 8439, 3930]
+
+4551
+road now
+[23359, 34244, 16162, 2877]
+
+33707
+road now
+[33706, 9240, 23588, 28575, 5145, 14903]
+
+31257
+road now
+[5577, 14930, 31264, 31258, 35161, 31265]
+
+7899
+road now
+[34546, 1710]
+
+31114
+road now
+[5172, 21938]
+
+9231
+road now
+[3606, 7026]
+
+4353
+road now
+[32855, 32855, 18006, 5640, 2139]
+
+9141
+road now
+[33989, 13920, 10378, 6045]
+
+3525
+road now
+[452, 2184]
+
+34462
+road now
+[34511, 5793, 34512, 34510, 34597, 34608, 9051]
+
+32538
+road now
+[2130, 28357, 32539, 32544, 21231, 10803]
+
+6873
+road now
+[2778, 3759]
+
+4524
+road now
+[35526, 7359, 20494, 17245, 34584]
+
+3075
+road now
+[3327, 18784, 2373]
+
+33613
+road now
+[871, 871, 6126]
+
+4047
+road now
+[11716, 10540, 6486, 15567, 3066]
+
+32809
+road now
+[4983, 27828, 24140, 5757, 15311, 32808]
+
+28548
+road now
+[5595, 33567, 28532]
+
+30884
+road now
+[30883, 30859]
+
+6990
+road now
+[2553, 29162, 3651]
+
+16080
+road now
+[2643, 5127, 16064]
+
+32646
+road now
+[32645, 32647, 1873]
+
+8088
+road now
+[1482, 27190, 9150]
+
+16080
+road now
+[2643, 5127, 16064]
+
+20261
+road now
+[4155, 33357, 20245]
+
+34581
+road now
+[11964, 5019, 5019]
+
+27283
+road now
+[4272, 27267]
+
+4551
+road now
+[23359, 34244, 16162, 2877]
+
+35161
+road now
+[15463, 31265, 31257]
+
+32808
+road now
+[32809, 29025]
+
+28548
+road now
+[5595, 33567, 28532]
+
+16080
+road now
+[2643, 5127, 16064]
+
+34581
+road now
+[11964, 5019, 5019]
+
+19443
+road now
+[7278, 19427]
+
+35161
+road now
+[15463, 31265, 31257]
+
+10772
+road now
+[7026, 10756]
+
+32855
+road now
+[27684, 2139, 4353, 4353]
+
+34597
+road now
+[24558, 34462]
+
+32539
+road now
+[22499, 32538]
+
+18784
+road now
+[3075, 2373, 18768]
+
+32808
+road now
+[32809, 29025]
+
+29162
+road now
+[2553, 6990, 29146]
+
+32647
+road now
+[32643, 32646, 32645]
+
+20062
+road now
+[31195, 20046]
+
+8439
+road now
+[27209, 27209, 1682, 2661]
+
+32539
+road now
+[22499, 32538]
+
+18784
+road now
+[3075, 2373, 18768]
+
+32808
+road now
+[32809, 29025]
+
+28548
+road now
+[5595, 33567, 28532]
+
+29162
+road now
+[2553, 6990, 29146]
+
+16080
+road now
+[2643, 5127, 16064]
+
+32647
+road now
+[32643, 32646, 32645]
+
+34546
+road now
+[20799, 7899, 34557]
+
+23148
+road now
+[7629, 8259, 23132]
+
+24303
+road now
+[30859, 24287]
+
+29162
+road now
+[2553, 6990, 29146]
+
+27190
+road now
+[8088, 9150, 27174]
+
+20062
+road now
+[31195, 20046]
+
+18749
+road now
+[35789, 18733]
+
+28548
+road now
+[5595, 33567, 28532]
+
+16080
+road now
+[2643, 5127, 16064]
+
+25893
+road now
+[3003, 5451, 25877]
+
+27135
+road now
+[31109, 27120]
+
+16162
+road now
+[4551, 2877, 16146]
+
+34546
+road now
+[20799, 7899, 34557]
+
+32647
+road now
+[32643, 32646, 32645]
+
+24303
+road now
+[30859, 24287]
+
+29162
+road now
+[2553, 6990, 29146]
+
+16080
+road now
+[2643, 5127, 16064]
+
+27190
+road now
+[8088, 9150, 27174]
+
