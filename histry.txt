@@ -12,4 +12,4 @@ RioneLauncher2-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/
 
 ■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
 RioneLauncher3-newVersion 5.02 962
-RioneLauncher3-link https://raw.githubusercontent.com/MiglyA/bash-rescue/master/RioneLauncher.sh
+RioneLauncher3-link https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh
