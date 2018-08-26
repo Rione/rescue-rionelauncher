@@ -25,11 +25,11 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.02
+CurrentVer=5.10
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
-updataPID=-1
+updataPID=0
 
 #[C+ctrl]検知
 trap 'last' {1,2,3,15}
@@ -50,7 +50,7 @@ killcommand(){
 		fi
 
 	fi
-
+	#ps aux | grep  "$updataPID"
 	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
 	rm $LOCATION/.histry_date &>/dev/null
@@ -65,10 +65,10 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
-
-	while [[ ! updataID -eq 0 ]]; do
-		sleep 1
-	done
+	
+	#while [[ ! `ps aux | grep -c "$updataPID"` -eq 1 ]]; do
+	#	sleep 0.1
+	#done
 
 }
 
@@ -133,7 +133,7 @@ original_clear(){
 }
 
 updata(){
-
+	#sleep 3
 	cd $LOCATION
 
 	#自動アップデート
@@ -157,8 +157,6 @@ updata(){
 	echo
 	echo " ▶▶アップデート確認完了"
 	echo
-
-	updataPID=0
 
 }
 
@@ -198,9 +196,11 @@ echo 'fi' >> update.sh
 
 updata &
 
+updataPID=`echo $!`
+#echo $updataPID
 #条件変更シグナル
 ChangeConditions=0
-debug=991
+debug=985
 
 if [ ! -z $1 ]; then
 
