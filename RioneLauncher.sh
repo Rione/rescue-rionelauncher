@@ -200,7 +200,7 @@ updata &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=982
+debug=991
 
 if [ ! -z $1 ]; then
 
