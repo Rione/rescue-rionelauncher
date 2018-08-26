@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.10
+CurrentVer=5.11
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -50,11 +50,10 @@ killcommand(){
 		fi
 
 	fi
-	#ps aux | grep  "$updataPID"
+	ps aux | grep  "$updataPID"
 	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
 	rm $LOCATION/.histry_date &>/dev/null
-	rm $LOCATION/update.sh &>/dev/null
 	rm $LOCATION/.signal &>/dev/null
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -65,10 +64,6 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
-	
-	#while [[ ! `ps aux | grep -c "$updataPID"` -eq 1 ]]; do
-	#	sleep 0.1
-	#done
 
 }
 
@@ -133,24 +128,42 @@ original_clear(){
 }
 
 updata(){
-	#sleep 3
-	cd $LOCATION
-
+	
 	#自動アップデート
-	if [ $os = "Linux" ]; then
+	echo
+	echo " ▶▶アップデート確認中..."
+	echo
+
+	histry_Ver=0
+	filename=`echo "$0"`
+	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"` >& /dev/null
+	echo $histry_Ver > .histry_date
+
+	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ] || [ ! -f .histry_date ]; then
 
 		echo
-		echo " ▶▶アップデート確認中..."
+		echo " ▶▶アップデートします。"
 		echo
-		bash update.sh >& /dev/null
 
-	else
+		IFS=$'\n'
+		cat $filename > temp
+		rm $filename
 
-		#一応mac
-		echo
-		echo " ▶▶アップデート確認中..."
-		echo
-		opne -a "terminal" ~/update.sh
+		if [ -z `echo $histry_Ver | awk '{print $4}'` ]; then
+			#ユーザーデータ保持
+			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
+			cat temp > $filename
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > temp
+			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
+			cat temp >> $filename
+
+		else
+			#全上書き
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > $filename
+
+		fi
+		
+		rm temp
 
 	fi
 
@@ -171,36 +184,13 @@ echo " □ 　　- レスキューシミュレーション起動補助スクリ�
 echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
-#update出力
-histry_Ver=0
-echo '#!/bin/bash' > update.sh
-echo "filename=$0" >> update.sh
-echo "CurrentVer=$CurrentVer" >> update.sh
-echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`' >> update.sh
-echo 'echo $histry_Ver > .histry_date' >> update.sh
-echo 'if [' ! \`echo \$histry_Ver '|' awk \'{print \$2}\'\` = \$CurrentVer ]\; 'then' >> update.sh
-echo IFS=$\''\'n\' >> update.sh
-echo 'cat $filename > temp' >> update.sh
-echo 'rm $filename' >> update.sh
-echo if [ -z \`echo '$histry_Ver' '|' awk \'{print '$4'}\'\` ]\; then >> update.sh
-echo cat temp '|' head -\$\(grep -n \'？↓\' temp '|' sed \'s/:/ /g\' '|' sed -n 1P '|' awk \'{print \$1}\'\) \> temp >> update.sh
-echo 'cat temp > $filename' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
-echo sed -i 1,"\`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print \$1}'\`"d temp >> update.sh
-echo 'cat temp >> $filename' >> update.sh
-echo 'else' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
-echo 'fi' >> update.sh
-echo 'rm temp' >> update.sh
-echo 'fi' >> update.sh
-
 updata &
 
 updataPID=`echo $!`
-#echo $updataPID
+echo $updataPID
 #条件変更シグナル
 ChangeConditions=0
-debug=985
+debug=981
 
 if [ ! -z $1 ]; then
 
@@ -779,9 +769,9 @@ touch server.log
 
 if [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
 
-	sed -i "s/$CurrentVer/1.00/g" update.sh
-	bash update.sh
-
+	rm .histry_date
+	updata
+	
 fi
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////
