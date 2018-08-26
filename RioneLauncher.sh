@@ -29,6 +29,7 @@ CurrentVer=5.02
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
+updataPID=-1
 
 #[C+ctrl]検知
 trap 'last' {1,2,3,15}
@@ -64,6 +65,10 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
+
+	while [[ ! updataID -eq 0 ]]; do
+		sleep 1
+	done
 
 }
 
@@ -129,8 +134,6 @@ original_clear(){
 
 updata(){
 
-	sleep 1
-
 	cd $LOCATION
 
 	#自動アップデート
@@ -155,7 +158,7 @@ updata(){
 	echo " ▶▶アップデート確認完了"
 	echo
 
-	exit 1
+	updataPID=0
 
 }
 
