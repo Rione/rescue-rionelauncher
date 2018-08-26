@@ -52,7 +52,9 @@ killcommand(){
 
 	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
-	updata
+	rm $LOCATION/.histry_date &>/dev/null
+	rm $LOCATION/update.sh &>/dev/null
+	rm $LOCATION/.signal &>/dev/null
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -62,10 +64,6 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
-
-	rm $LOCATION/.histry_date &>/dev/null
-	rm $LOCATION/update.sh &>/dev/null
-	rm $LOCATION/.signal &>/dev/null
 
 }
 
@@ -131,6 +129,8 @@ original_clear(){
 
 updata(){
 
+	sleep 1
+
 	cd $LOCATION
 
 	#自動アップデート
@@ -139,8 +139,7 @@ updata(){
 		echo
 		echo " ▶▶アップデート確認中..."
 		echo
-		ls
-		bash update.sh
+		bash update.sh >& /dev/null
 
 	else
 
@@ -151,6 +150,12 @@ updata(){
 		opne -a "terminal" ~/update.sh
 
 	fi
+
+	echo
+	echo " ▶▶アップデート確認完了"
+	echo
+
+	exit 1
 
 }
 
@@ -170,7 +175,7 @@ histry_Ver=0
 echo '#!/bin/bash' > update.sh
 echo "filename=$0" >> update.sh
 echo "CurrentVer=$CurrentVer" >> update.sh
-echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher3-newVersion"`' >> update.sh
+echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`' >> update.sh
 echo 'echo $histry_Ver > .histry_date' >> update.sh
 echo 'if [' ! \`echo \$histry_Ver '|' awk \'{print \$2}\'\` = \$CurrentVer ]\; 'then' >> update.sh
 echo IFS=$\''\'n\' >> update.sh
@@ -179,19 +184,20 @@ echo 'rm $filename' >> update.sh
 echo if [ -z \`echo '$histry_Ver' '|' awk \'{print '$4'}\'\` ]\; then >> update.sh
 echo cat temp '|' head -\$\(grep -n \'？↓\' temp '|' sed \'s/:/ /g\' '|' sed -n 1P '|' awk \'{print \$1}\'\) \> temp >> update.sh
 echo 'cat temp > $filename' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher3-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
+echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
 echo sed -i 1,"\`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print \$1}'\`"d temp >> update.sh
 echo 'cat temp >> $filename' >> update.sh
 echo 'else' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher3-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
+echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
 echo 'fi' >> update.sh
 echo 'rm temp' >> update.sh
 echo 'fi' >> update.sh
 
+updata &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=974
+debug=982
 
 if [ ! -z $1 ]; then
 
@@ -794,20 +800,28 @@ else
 fi
 
 #サーバー起動
-gnome-terminal --geometry=60x6 -x  bash -c  "
+if [ $os = "Linux" ]; then
 
-	#[C+ctrl]検知
-	trap 'last2' {1,2,3}
-	last2(){
-		echo -en "\x01" > $LOCATION/.signal
-		exit 1
-	}
+	gnome-terminal --geometry=60x6 -x  bash -c  "
 
-	bash $START_LAUNCH -m ../$MAP/ -c ../`echo $CONFIG | sed "s@$SERVER/@@g" | sed 's@collapse.cfg@@g'` 2>&1 | tee $LOCATION/server.log
+		#[C+ctrl]検知
+		trap 'last2' {1,2,3}
+		last2(){
+			echo -en "\x01" > $LOCATION/.signal
+			exit 1
+		}
 
-	read waitserver
+		bash $START_LAUNCH -m ../$MAP/ -c ../`echo $CONFIG | sed "s@$SERVER/@@g" | sed 's@collapse.cfg@@g'` 2>&1 | tee $LOCATION/server.log
 
-" &
+		read waitserver
+
+	" &
+
+else
+
+	bash $START_LAUNCH -m ../$MAP/ -c ../`echo $CONFIG | sed "s@$SERVER/@@g" | sed 's@collapse.cfg@@g'` > $LOCATION/server.log &
+
+fi
 
 #サーバー待機
 echo " ▼ サーバー起動中..."
