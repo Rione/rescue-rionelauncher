@@ -50,11 +50,8 @@ killcommand(){
 		fi
 
 	fi
-	ps aux | grep  "$updataPID"
-	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
-	rm $LOCATION/.histry_date &>/dev/null
-	rm $LOCATION/.signal &>/dev/null
+	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -64,6 +61,13 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
+
+	#while [[ `cat $LOCATION/.histry_date | grep -c 'fin'` -eq 0 ]]; do
+	#	sleep 1
+	#done
+
+	rm $LOCATION/.histry_date &>/dev/null
+	rm $LOCATION/.signal &>/dev/null
 
 }
 
@@ -128,16 +132,24 @@ original_clear(){
 }
 
 updata(){
-	
+
 	#自動アップデート
 	echo
 	echo " ▶▶アップデート確認中..."
 	echo
 
-	histry_Ver=0
 	filename=`echo "$0"`
-	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"` >& /dev/null
-	echo $histry_Ver > .histry_date
+	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
+
+	if [[ -f .histry_date ]]; then
+		
+		rm .histry_date
+
+	else
+
+		echo $histry_Ver > .histry_date
+
+	fi
 
 	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ] || [ ! -f .histry_date ]; then
 
@@ -165,11 +177,15 @@ updata(){
 		
 		rm temp
 
-	fi
+	else
 
-	echo
-	echo " ▶▶アップデート確認完了"
-	echo
+		echo "fin" >> .histry_date
+
+		echo
+		echo " ▶▶アップデート確認完了"
+		echo
+
+	fi
 
 }
 
@@ -185,12 +201,10 @@ echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
 updata &
-
 updataPID=`echo $!`
-echo $updataPID
 #条件変更シグナル
 ChangeConditions=0
-debug=981
+debug=991
 
 if [ ! -z $1 ]; then
 
@@ -769,7 +783,6 @@ touch server.log
 
 if [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
 
-	rm .histry_date
 	updata
 	
 fi
