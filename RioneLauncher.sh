@@ -10,7 +10,7 @@
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-	SRC="/home/$USER/git/Migly_src"
+	SRC="/home/$USER/git/rcrs-adf-sample"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
@@ -52,10 +52,6 @@ killcommand(){
 
 	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
 
-	rm $LOCATION/.histry_date &>/dev/null
-	rm $LOCATION/update.sh &>/dev/null
-	rm $LOCATION/.signal &>/dev/null
-
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start-precompute.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -64,6 +60,19 @@ killcommand(){
 	kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
+
+	rm $LOCATION/.histry_date &>/dev/null
+	rm $LOCATION/.signal &>/dev/null
+
+	#updataスレッドが落ちるまで待機
+	while :
+	do
+		jobs >& /dev/null
+		if [[ `jobs | grep -c ""` -eq 0 ]]; then
+			break
+		fi
+
+	done
 
 }
 
@@ -129,33 +138,61 @@ original_clear(){
 
 updata(){
 
-	sleep 1
-
-	cd $LOCATION
-
 	#自動アップデート
-	if [ $os = "Linux" ]; then
+	echo
+	echo " ▶▶アップデート確認中..."
+	echo
 
-		echo
-		echo " ▶▶アップデート確認中..."
-		echo
-		bash update.sh >& /dev/null
+	filename=`echo "$0"`
+	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
+
+	if [[ -f .histry_date ]]; then
+		
+		rm .histry_date
 
 	else
 
-		#一応mac
-		echo
-		echo " ▶▶アップデート確認中..."
-		echo
-		opne -a "terminal" ~/update.sh
+		echo $histry_Ver > .histry_date
 
 	fi
 
-	echo
-	echo " ▶▶アップデート確認完了"
-	echo
+	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ] || [ ! -f .histry_date ]; then
 
-	exit 1
+		echo
+		echo " ▶▶アップデートします。"
+		echo
+
+		IFS=$'\n'
+		cat $filename > temp
+		rm $filename
+
+		if [ -z `echo $histry_Ver | awk '{print $4}'` ]; then
+			#ユーザーデータ保持
+			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
+			cat temp > $filename
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > temp
+			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
+			cat temp >> $filename
+
+		else
+			#全上書き
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > $filename
+
+		fi
+		
+		rm temp
+
+		killcommand
+
+	else
+
+		echo "fin" >> .histry_date
+
+		echo
+		echo " ▶▶アップデート確認完了"
+		echo
+
+	fi
 
 }
 
@@ -170,34 +207,11 @@ echo " □ 　　- レスキューシミュレーション起動補助スクリ�
 echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
-#update出力
-histry_Ver=0
-echo '#!/bin/bash' > update.sh
-echo "filename=$0" >> update.sh
-echo "CurrentVer=$CurrentVer" >> update.sh
-echo 'histry_Ver=`curl --connect-timeout 1 https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`' >> update.sh
-echo 'echo $histry_Ver > .histry_date' >> update.sh
-echo 'if [' ! \`echo \$histry_Ver '|' awk \'{print \$2}\'\` = \$CurrentVer ]\; 'then' >> update.sh
-echo IFS=$\''\'n\' >> update.sh
-echo 'cat $filename > temp' >> update.sh
-echo 'rm $filename' >> update.sh
-echo if [ -z \`echo '$histry_Ver' '|' awk \'{print '$4'}\'\` ]\; then >> update.sh
-echo cat temp '|' head -\$\(grep -n \'？↓\' temp '|' sed \'s/:/ /g\' '|' sed -n 1P '|' awk \'{print \$1}\'\) \> temp >> update.sh
-echo 'cat temp > $filename' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> temp' >> update.sh
-echo sed -i 1,"\`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print \$1}'\`"d temp >> update.sh
-echo 'cat temp >> $filename' >> update.sh
-echo 'else' >> update.sh
-echo curl \`curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt '| grep' "RioneLauncher4-link" '| awk' \''{print $2}'\'\` '> $filename' >> update.sh
-echo 'fi' >> update.sh
-echo 'rm temp' >> update.sh
-echo 'fi' >> update.sh
-
 updata &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=988
+debug=992
 
 if [ ! -z $1 ]; then
 
@@ -776,9 +790,8 @@ touch server.log
 
 if [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
 
-	sed -i "s/$CurrentVer/1.00/g" update.sh
-	bash update.sh
-
+	updata
+	
 fi
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////
