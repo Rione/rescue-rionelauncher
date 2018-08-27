@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.02
+CurrentVer=5.11
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -197,7 +197,7 @@ updata &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=982
+debug=988
 
 if [ ! -z $1 ]; then
 
