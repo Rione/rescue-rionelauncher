@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.11
+CurrentVer=5.10
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -162,6 +162,8 @@ updata(){
 		echo " ▶▶アップデートします。"
 		echo
 
+		killcommand
+
 		IFS=$'\n'
 		cat $filename > temp
 		rm $filename
@@ -182,7 +184,13 @@ updata(){
 		
 		rm temp
 
-		killcommand
+		echo
+		echo " ▶▶ Version"`echo $histry_Ver | awk '{print $2}'`" にアップデート完了しました。"
+		echo
+
+		sleep 1
+		
+		kill `ps | grep bash | head -n 1 | awk '{print $1}'`
 
 	else
 
@@ -193,6 +201,8 @@ updata(){
 		echo
 
 	fi
+
+	exit 1
 
 }
 
@@ -211,7 +221,7 @@ updata &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=992
+debug=1008
 
 if [ ! -z $1 ]; then
 
