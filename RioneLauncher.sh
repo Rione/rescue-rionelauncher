@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.10
+CurrentVer=5.12
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -64,13 +64,15 @@ killcommand(){
 	rm $LOCATION/.histry_date &>/dev/null
 	rm $LOCATION/.signal &>/dev/null
 
-	#updataスレッドが落ちるまで待機
+	#updateスレッドが落ちるまで待機
 	while :
 	do
-		jobs >& /dev/null
-		if [[ `jobs | grep -c ""` -eq 0 ]]; then
-			break
+
+		if [[ `jobs | grep 'update' | awk '{print $2}'` = '実行中' ]]; then
+			continue
 		fi
+
+		break
 
 	done
 
@@ -85,7 +87,7 @@ last(){
 	  	echo " シミュレーションを中断します...Σ(ﾟДﾟﾉ)ﾉ"
 		echo
 
-		if [ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]; then
+		if [ -f $SERVER/boot/logs/kernel.log ] && [ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]; then
 
 			echo
 			echo "◆　これまでのスコア : "`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`
@@ -136,7 +138,7 @@ original_clear(){
 
 }
 
-updata(){
+update(){
 
 	#自動アップデート
 	echo
@@ -146,17 +148,7 @@ updata(){
 	filename=`echo "$0"`
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
 
-	if [[ -f .histry_date ]]; then
-		
-		rm .histry_date
-
-	else
-
-		echo $histry_Ver > .histry_date
-
-	fi
-
-	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ] || [ ! -f .histry_date ]; then
+	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]; then
 
 		echo
 		echo " ▶▶アップデートします。"
@@ -185,20 +177,13 @@ updata(){
 		rm temp
 
 		echo
-		echo " ▶▶ Version"`echo $histry_Ver | awk '{print $2}'`" にアップデート完了しました。"
+		echo " ▶▶ Version "`echo $histry_Ver | awk '{print $2}'`" にアップデート完了しました。"
+		echo " ▶▶ 再起動をお願いします。"
 		echo
 
 		sleep 1
 		
-		kill `ps | grep bash | head -n 1 | awk '{print $1}'`
-
-	else
-
-		echo "fin" >> .histry_date
-
-		echo
-		echo " ▶▶アップデート確認完了"
-		echo
+		kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
 	fi
 
@@ -217,18 +202,18 @@ echo " □ 　　- レスキューシミュレーション起動補助スクリ�
 echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
-updata &
+update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1008
+debug=996
 
 if [ ! -z $1 ]; then
 
 	ChangeConditions=1
 	echo
-	echo
-	echo "  ディレクトリ検索中..."
+	echo 
+	echo "  ● ディレクトリ検索中..."
 
 fi
 
@@ -800,7 +785,8 @@ touch server.log
 
 if [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
 
-	updata
+	CurrentVer=1
+	update
 	
 fi
 
