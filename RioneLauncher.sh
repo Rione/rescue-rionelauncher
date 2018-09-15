@@ -4,13 +4,13 @@
 #使用するサーバーを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
-	SERVER="/home/$USER/git/rcrs-server"
+	SERVER="/home/$USER/KC3rescue/rcrs-server"
 	#SERVER="/home/$USER/git/roborescue-v1.2"
 
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-	SRC="/home/$USER/git/KC3agent"
+	SRC="/home/$USER/KC3rescue/KC3agent"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
