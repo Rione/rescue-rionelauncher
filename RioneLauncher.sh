@@ -10,7 +10,7 @@
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-	SRC="/home/$USER/git/rcrs-adf-sample"
+	SRC="/home/$USER/git/KC3agent"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
