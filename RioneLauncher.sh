@@ -51,8 +51,11 @@ killcommand(){
 
 	fi
 
-	if [[ ! -z $START_LAUNCH ]] && [[ -f "buckup-$START_LAUNCH" ]]; then
-		echo "buckup"
+	cd $SERVER/boot
+
+	if [[ -f "backup-$START_LAUNCH" ]]; then
+		rm $START_LAUNCH
+		mv "backup-$START_LAUNCH" $START_LAUNCH
 	fi
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -209,7 +212,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1001
+debug=1004
 
 if [ ! -z $1 ]; then
 
