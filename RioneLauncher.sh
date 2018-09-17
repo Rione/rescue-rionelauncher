@@ -209,7 +209,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=996
+debug=1001
 
 if [ ! -z $1 ]; then
 
