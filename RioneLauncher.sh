@@ -231,7 +231,7 @@ IFS=$'\n'
 #サーバーディレクトリの登録
 if [ -z $SERVER ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SERVER/boot/start-comprun.sh ]; then
 
-	serverdirinfo=(`find ~/ -type d -name ".*" -prune -o -type f -name 'start-comprun.sh' -print | sed 's@/boot/start-comprun.sh@@g'`) &>/dev/null
+	serverdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g'`) &>/dev/null
 	
 	original_clear
 
@@ -338,7 +338,7 @@ fi
 #ソースディレクトリの登録
 if [ -z $SRC ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SRC/library/rescue/adf/adf-core.jar ]; then
 
-	srcdirinfo=(`find ~/ -type d -name ".*" -prune -o -type f -name 'adf-core.jar' -print | sed 's@/library/rescue/adf/adf-core.jar@@g'`) &>/dev/null
+	srcdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep config/module.cfg | sed 's@/config/module.cfg@@g'`) &>/dev/null
 	
 	original_clear
 
