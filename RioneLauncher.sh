@@ -6,7 +6,6 @@
 ##例) SERVER="/home/$USER/git/rcrs-server"
 	#SERVER="/home/$USER/git/rcrs-server-master"
 	SERVER="/home/$USER/git/rcrs-server"
-	#SERVER="/home/$USER/git/roborescue-v1.2"
 
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
@@ -37,9 +36,9 @@ rm $LOCATION/.signal &>/dev/null
 
 killcommand(){
 
-	if [ $phase -eq 1 ]; then
+	if [[ $phase -eq 1 ]]; then
 
-		if [ $defalutblockade = "false" ]; then
+		if [[ $defalutblockade = "false" ]]; then
 
 			sed -i -e 's/true/false/g' $CONFIG
 
@@ -86,14 +85,14 @@ killcommand(){
 
 last(){
 
-	if [ $phase -eq 1 ]; then
+	if [[ $phase -eq 1 ]]; then
 
 		echo
 	  	echo
 	  	echo " シミュレーションを中断します...Σ(ﾟДﾟﾉ)ﾉ"
 		echo
 
-		if [ -f $SERVER/boot/logs/kernel.log ] && [ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]; then
+		if [[ -f $SERVER/boot/logs/kernel.log ]] && [[ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]]; then
 
 			echo
 			echo "◆　これまでのスコア : "`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`
@@ -123,7 +122,7 @@ errerbreak(){
 
 kill_subwindow(){
 
-	if [ -f $LOCATION/.signal ]; then
+	if [[ -f $LOCATION/.signal ]]; then
 	
 		last
 	
@@ -154,7 +153,7 @@ update(){
 	filename=`echo "$0"`
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
 
-	if [ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]; then
+	if [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
 
 		echo
 		echo " ▶▶アップデートします。"
@@ -166,7 +165,7 @@ update(){
 		cat $filename > temp
 		rm $filename
 
-		if [ -z `echo $histry_Ver | awk '{print $4}'` ]; then
+		if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
 			#ユーザーデータ保持
 			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
 			cat temp > $filename
@@ -214,7 +213,7 @@ update &
 ChangeConditions=0
 debug=1004
 
-if [ ! -z $1 ]; then
+if [[ ! -z $1 ]]; then
 
 	ChangeConditions=1
 	echo
@@ -229,7 +228,7 @@ IFS=$'\n'
 [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #サーバーディレクトリの登録
-if [ -z $SERVER ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SERVER/boot/start-comprun.sh ]; then
+if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/start-comprun.sh ]]; then
 
 	serverdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g'`) &>/dev/null
 	
@@ -1095,7 +1094,7 @@ do
 	lastline=`wc -l src.log | awk '{print $1}'`
 
 	cycle=`grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}'`
-	
+
 	[ -z $cycle ] && cycle=0
 
 	if [ $cycle -ge $config_cycle ]; then
@@ -1104,7 +1103,7 @@ do
 		echo "● シミュレーション終了！！"
 		echo
 		echo "◆ 最終スコアは"`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`"でした。"
-		echo `date +%Y/%m/%d_%H:%M`　"スコア:"`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`　"マップ:"`echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g'`　"瓦礫:"$brockademenu >> score.log
+		echo $(date +%Y/%m/%d_%H:%M)　"スコア:"$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')　"サーバー:"$(echo $SERVER | sed "s@/home/$USER/@@g")　"エージェント:"$(echo $SRC | sed "s@/home/$USER/@@g")　"マップ:"$(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g')　"瓦礫:"$brockademenu >> score.log
 		echo
 		echo "スコアは'score.log'に記録しました。"
 		echo
