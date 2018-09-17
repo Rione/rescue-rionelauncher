@@ -4,13 +4,14 @@
 #使用するサーバーを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
-	SERVER="/home/$USER/KC3rescue/rcrs-server"
+	#SERVER="/home/$USER/git/rcrs-server-master"
+	SERVER="/home/$USER/git/rcrs-server"
 	#SERVER="/home/$USER/git/roborescue-v1.2"
 
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-	SRC="/home/$USER/KC3rescue/KC3agent"
+	SRC="/home/$USER/git/rcrs-adf-sample"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
@@ -50,7 +51,9 @@ killcommand(){
 
 	fi
 
-	sed -i 's@startKernel --nomenu --autorun@startKernel --nomenu@g' $SERVER/boot/start.sh &>/dev/null
+	if [[ ! -z $START_LAUNCH ]] && [[ -f "buckup-$START_LAUNCH" ]]; then
+		echo "buckup"
+	fi
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
 	kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -794,8 +797,6 @@ fi
 
 phase=1
 
-sed -i 's@startKernel --nomenu@startKernel --nomenu --autorun@g' $SERVER/boot/start.sh
-
 cd $SERVER/boot/
 
 if [ `grep -c "trap" start.sh` -eq 1 ]; then
@@ -807,6 +808,11 @@ else
 	START_LAUNCH="start-comprun.sh"
 
 fi
+
+cp $START_LAUNCH "backup-$START_LAUNCH"
+
+sed -i "s/$(cat $START_LAUNCH | grep 'startKernel')/startKernel --nomenu --autorun/g" $START_LAUNCH
+sed -i "s/$(cat $START_LAUNCH | grep 'startSims')/startSims --nogui/g" $START_LAUNCH
 
 #サーバー起動
 if [ $os = "Linux" ]; then
