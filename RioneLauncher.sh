@@ -694,7 +694,7 @@ firebrigade_max=`echo "${scenariolist[*]}" | grep -c "firebrigade"`
 ambulanceteam_max=`echo "${scenariolist[*]}" | grep -c "ambulanceteam"`
 
 #building&road
-#コメントアウトをとってもいいですけど処理がめちゃくちゃ重くなりますぞ...
+#コメントアウトをとってもいいけど処理がめちゃくちゃ重くなりますぞ...
 
 #maplist=(`cat $MAP/map.gml`)
 
