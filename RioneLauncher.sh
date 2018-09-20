@@ -153,7 +153,7 @@ update(){
 	filename=`echo "$0"`
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
 
-	if [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
+	if [[ ! -z $histry_Ver ]] && [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
 
 		echo
 		echo " ▶▶アップデートします。"
