@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.14
+CurrentVer=5.13
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -151,18 +151,18 @@ update(){
 	echo
 
 	filename=`echo "$0"`
+
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
 
 	if [[ ! -z $histry_Ver ]] && [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
 
 		echo
-		echo " ▶▶アップデートします。"
+		echo ' ▶▶アップデートします。'
 		echo
-
-		killcommand
 
 		IFS=$'\n'
 		cat $filename > temp
+
 		rm $filename
 
 		if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
@@ -172,7 +172,6 @@ update(){
 			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > temp
 			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
 			cat temp >> $filename
-
 		else
 			#全上書き
 			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > $filename
@@ -187,7 +186,9 @@ update(){
 		echo
 
 		sleep 1
-		
+
+		killcommand
+
 		kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
 	fi
@@ -211,7 +212,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1004
+debug=1005
 
 if [[ ! -z $1 ]]; then
 
