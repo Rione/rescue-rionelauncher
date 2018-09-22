@@ -213,7 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1011
+debug=1009
 
 if [[ ! -z $1 ]]; then
 
@@ -1114,8 +1114,6 @@ do
 		echo
 		echo "スコアは'score.csv'に記録しました。"
 		echo
-
-		sed -i 's@マップ:s/@マップ:maps/@g' score.log
 
 		killcommand
 
