@@ -25,7 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=5.13
+CurrentVer=6.00
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -50,11 +50,12 @@ killcommand(){
 
 	fi
 
-	cd $SERVER/boot
+	if [[ -f $SERVER/boot/"backup-$START_LAUNCH" ]]; then
 
-	if [[ -f "backup-$START_LAUNCH" ]]; then
-		rm $START_LAUNCH
-		mv "backup-$START_LAUNCH" $START_LAUNCH
+		rm $SERVER/boot/$START_LAUNCH
+		cat $SERVER/boot/backup-$START_LAUNCH > $SERVER/boot/$START_LAUNCH
+		rm $SERVER/boot/"backup-$START_LAUNCH"
+
 	fi
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -152,13 +153,15 @@ update(){
 
 	filename=`echo "$0"`
 
-	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
-
+	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
+	
 	if [[ ! -z $histry_Ver ]] && [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
 
 		echo
 		echo ' ▶▶アップデートします。'
 		echo
+
+		killcommand
 
 		IFS=$'\n'
 		cat $filename > temp
@@ -169,12 +172,12 @@ update(){
 			#ユーザーデータ保持
 			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
 			cat temp > $filename
-			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > temp
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > temp
 			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
 			cat temp >> $filename
 		else
 			#全上書き
-			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > $filename
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $filename
 
 		fi
 		
@@ -186,8 +189,6 @@ update(){
 		echo
 
 		sleep 1
-
-		killcommand
 
 		kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
@@ -212,7 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1005
+debug=1006
 
 if [[ ! -z $1 ]]; then
 
