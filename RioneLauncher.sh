@@ -213,7 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1006
+debug=1011
 
 if [[ ! -z $1 ]]; then
 
@@ -1105,9 +1105,14 @@ do
 		echo "● シミュレーション終了！！"
 		echo
 		echo "◆ 最終スコアは"`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`"でした。"
-		echo $(date +%Y/%m/%d_%H:%M)　"スコア:"$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')　"サーバー:"$(echo $SERVER | sed "s@/home/$USER/@@g")　"エージェント:"$(echo $SRC | sed "s@/home/$USER/@@g")　"マップ:"$(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g')　"瓦礫:"$brockademenu >> score.log
+		
+		[ ! -f score.csv ] && echo 'Date, Score, Server, Agent, Map, Blockade' > score.csv
+		[ $brockademenu = 'あり' ] && brockademenu=yes
+		[ $brockademenu = 'なし' ] && brockademenu=no
+
+		echo "$(date +%Y/%m/%d_%H:%M), $(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'), $(echo $SERVER | sed "s@/home/$USER/@@g"), $(echo $SRC | sed "s@/home/$USER/@@g"), $(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g'), $brockademenu" >> score.csv
 		echo
-		echo "スコアは'score.log'に記録しました。"
+		echo "スコアは'score.csv'に記録しました。"
 		echo
 
 		sed -i 's@マップ:s/@マップ:maps/@g' score.log
