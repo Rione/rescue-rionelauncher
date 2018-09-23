@@ -25,7 +25,11 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
+<<<<<<< HEAD
 CurrentVer=5.13
+=======
+CurrentVer=6.00
+>>>>>>> origin/debug
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -50,11 +54,12 @@ killcommand(){
 
 	fi
 
-	cd $SERVER/boot
+	if [[ -f $SERVER/boot/"backup-$START_LAUNCH" ]]; then
 
-	if [[ -f "backup-$START_LAUNCH" ]]; then
-		rm $START_LAUNCH
-		mv "backup-$START_LAUNCH" $START_LAUNCH
+		rm $SERVER/boot/$START_LAUNCH
+		cat $SERVER/boot/backup-$START_LAUNCH > $SERVER/boot/$START_LAUNCH
+		rm $SERVER/boot/"backup-$START_LAUNCH"
+
 	fi
 
 	kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
@@ -150,10 +155,16 @@ update(){
 	echo " ▶▶アップデート確認中..."
 	echo
 
+<<<<<<< HEAD
 	filename=`echo "$0"`
 
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
+=======
+	FILENAME=$LOCATION/$(echo "$0")
+>>>>>>> origin/debug
 
+	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
+	
 	if [[ ! -z $histry_Ver ]] && [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
 
 		echo
@@ -161,20 +172,30 @@ update(){
 		echo
 
 		IFS=$'\n'
+<<<<<<< HEAD
 		cat $filename > temp
 
 		rm $filename
+=======
+		cat $FILENAME > temp
+
+		rm $FILENAME
+>>>>>>> origin/debug
 
 		if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
 			#ユーザーデータ保持
 			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
-			cat temp > $filename
-			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > temp
+			cat temp > $FILENAME
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > temp
 			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
+<<<<<<< HEAD
 			cat temp >> $filename
+=======
+			cat temp >> $FILENAME
+>>>>>>> origin/debug
 		else
 			#全上書き
-			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher4-link | awk '{print $2}'` > $filename
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $FILENAME
 
 		fi
 		
@@ -187,8 +208,11 @@ update(){
 
 		sleep 1
 
+<<<<<<< HEAD
 		killcommand
 
+=======
+>>>>>>> origin/debug
 		kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
 	fi
@@ -212,7 +236,11 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
+<<<<<<< HEAD
 debug=1005
+=======
+debug=1014
+>>>>>>> origin/debug
 
 if [[ ! -z $1 ]]; then
 
@@ -1039,7 +1067,6 @@ do
 	echo -e "\e[K\c"
 
 
-
 	if [ `grep -c "Loader is not found." src.log` -eq 1 ]; then
 
 		errerbreak
@@ -1054,7 +1081,13 @@ do
 
 		fi
 
-		if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ] && [ `grep -c "failed: No more agents" server.log` -eq 1 ]; then
+		if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ]; then
+
+			if [[ $START_LAUNCH = "start.sh" ]]; then
+			
+				[ ! `grep -c "failed: No more agents" server.log` -eq 1 ] && continue
+
+			fi
 
 			echo
 			echo " ▼ 準備完了。"
@@ -1092,9 +1125,9 @@ do
 
 	tail -n $((`wc -l src.log | awk '{print $1}'` - $lastline)) src.log
 
-	lastline=`wc -l src.log | awk '{print $1}'`
+	lastline=$(wc -l src.log | awk '{print $1}')
 
-	cycle=`grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}'`
+	cycle=$(grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}')
 
 	[ -z $cycle ] && cycle=0
 
@@ -1104,12 +1137,15 @@ do
 		echo "● シミュレーション終了！！"
 		echo
 		echo "◆ 最終スコアは"`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`"でした。"
-		echo $(date +%Y/%m/%d_%H:%M)　"スコア:"$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')　"サーバー:"$(echo $SERVER | sed "s@/home/$USER/@@g")　"エージェント:"$(echo $SRC | sed "s@/home/$USER/@@g")　"マップ:"$(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g')　"瓦礫:"$brockademenu >> score.log
-		echo
-		echo "スコアは'score.log'に記録しました。"
-		echo
+		
+		[ ! -f score.csv ] && echo 'Date, Score, Server, Agent, Map, Blockade' > score.csv
+		[ $brockademenu = 'あり' ] && brockademenu=yes
+		[ $brockademenu = 'なし' ] && brockademenu=no
 
-		sed -i 's@マップ:s/@マップ:maps/@g' score.log
+		echo "$(date +%Y/%m/%d_%H:%M), $(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'), $(echo $SERVER | sed "s@/home/$USER/@@g"), $(echo $SRC | sed "s@/home/$USER/@@g"), $(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g'), $brockademenu" >> score.csv
+		echo
+		echo "スコアは'score.csv'に記録しました。"
+		echo
 
 		killcommand
 

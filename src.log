@@ -2,16 +2,30 @@ Done.
 [ RCRS ADF Version 2.3.0 (build 20180709T062439Z) ]
 
 [START ] Connect to server (host:localhost, port:7000)
+<<<<<<< HEAD
 [FINISH] Connect AmbulanceCentre (success:0)
 [FINISH] Connect FireStation (success:0)
 [FINISH] Connect PoliceOffice (success:0)
 [INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@4fed68d8 (NON_PRECOMPUTE)
 [INFO  ] Connected - adf.agent.platoon.PlatoonPolice@3433a73c (NON_PRECOMPUTE)
 [INFO  ] Connected - adf.agent.platoon.PlatoonFire@1812c7c8 (NON_PRECOMPUTE)
+=======
+[FINISH] Connect PoliceOffice (success:0)
+[FINISH] Connect AmbulanceCentre (success:0)
+[FINISH] Connect FireStation (success:0)
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@2b9ba61 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@40c16bd2 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@50188e5a (NON_PRECOMPUTE)
+>>>>>>> origin/debug
 [SampleKMeans] Cluster : 10
 [SampleKMeans] Cluster : 10
 [SampleKMeans] Cluster : 10
 [FINISH] Connect FireBrigade (success:1)
+<<<<<<< HEAD
 [FINISH] Connect AmbulanceTeam (success:1)
 [FINISH] Connect PoliceForce (success:1)
+=======
+[FINISH] Connect PoliceForce (success:1)
+[FINISH] Connect AmbulanceTeam (success:1)
+>>>>>>> origin/debug
 [FINISH] Done connecting to server (3 agents)
