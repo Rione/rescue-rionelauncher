@@ -25,11 +25,7 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-<<<<<<< HEAD
-CurrentVer=5.13
-=======
 CurrentVer=6.00
->>>>>>> origin/debug
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -155,13 +151,7 @@ update(){
 	echo " ▶▶アップデート確認中..."
 	echo
 
-<<<<<<< HEAD
-	filename=`echo "$0"`
-
-	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher4-newVersion"`
-=======
 	FILENAME=$LOCATION/$(echo "$0")
->>>>>>> origin/debug
 
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
 	
@@ -171,16 +161,12 @@ update(){
 		echo ' ▶▶アップデートします。'
 		echo
 
-		IFS=$'\n'
-<<<<<<< HEAD
-		cat $filename > temp
+		killcommand
 
-		rm $filename
-=======
+		IFS=$'\n'
 		cat $FILENAME > temp
 
 		rm $FILENAME
->>>>>>> origin/debug
 
 		if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
 			#ユーザーデータ保持
@@ -188,11 +174,7 @@ update(){
 			cat temp > $FILENAME
 			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > temp
 			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
-<<<<<<< HEAD
-			cat temp >> $filename
-=======
 			cat temp >> $FILENAME
->>>>>>> origin/debug
 		else
 			#全上書き
 			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $FILENAME
@@ -208,11 +190,6 @@ update(){
 
 		sleep 1
 
-<<<<<<< HEAD
-		killcommand
-
-=======
->>>>>>> origin/debug
 		kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
 	fi
@@ -236,11 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-<<<<<<< HEAD
-debug=1005
-=======
 debug=1014
->>>>>>> origin/debug
 
 if [[ ! -z $1 ]]; then
 
