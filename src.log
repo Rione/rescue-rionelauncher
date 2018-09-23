@@ -5,13 +5,13 @@ Done.
 [FINISH] Connect PoliceOffice (success:0)
 [FINISH] Connect AmbulanceCentre (success:0)
 [FINISH] Connect FireStation (success:0)
-[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@6ccd8e6c (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonFire@1d2f5a2b (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@361d8e2f (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@2b9ba61 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@40c16bd2 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@50188e5a (NON_PRECOMPUTE)
 [SampleKMeans] Cluster : 10
 [SampleKMeans] Cluster : 10
 [SampleKMeans] Cluster : 10
 [FINISH] Connect FireBrigade (success:1)
-[FINISH] Connect AmbulanceTeam (success:1)
 [FINISH] Connect PoliceForce (success:1)
+[FINISH] Connect AmbulanceTeam (success:1)
 [FINISH] Done connecting to server (3 agents)

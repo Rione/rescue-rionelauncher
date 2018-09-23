@@ -151,7 +151,7 @@ update(){
 	echo " ▶▶アップデート確認中..."
 	echo
 
-	filename=`echo "$0"`
+	FILENAME=$LOCATION/$(echo "$0")
 
 	histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
 	
@@ -164,20 +164,20 @@ update(){
 		killcommand
 
 		IFS=$'\n'
-		cat $filename > temp
+		cat $FILENAME > temp
 
-		rm $filename
+		rm $FILENAME
 
 		if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
 			#ユーザーデータ保持
 			cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
-			cat temp > $filename
+			cat temp > $FILENAME
 			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > temp
 			sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
-			cat temp >> $filename
+			cat temp >> $FILENAME
 		else
 			#全上書き
-			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $filename
+			curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $FILENAME
 
 		fi
 		
@@ -213,7 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1009
+debug=1014
 
 if [[ ! -z $1 ]]; then
 
@@ -1040,7 +1040,6 @@ do
 	echo -e "\e[K\c"
 
 
-
 	if [ `grep -c "Loader is not found." src.log` -eq 1 ]; then
 
 		errerbreak
@@ -1055,7 +1054,13 @@ do
 
 		fi
 
-		if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ] && [ `grep -c "failed: No more agents" server.log` -eq 1 ]; then
+		if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ]; then
+
+			if [[ $START_LAUNCH = "start.sh" ]]; then
+			
+				[ ! `grep -c "failed: No more agents" server.log` -eq 1 ] && continue
+
+			fi
 
 			echo
 			echo " ▼ 準備完了。"
@@ -1093,9 +1098,9 @@ do
 
 	tail -n $((`wc -l src.log | awk '{print $1}'` - $lastline)) src.log
 
-	lastline=`wc -l src.log | awk '{print $1}'`
+	lastline=$(wc -l src.log | awk '{print $1}')
 
-	cycle=`grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}'`
+	cycle=$(grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}')
 
 	[ -z $cycle ] && cycle=0
 
