@@ -10,7 +10,7 @@
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-	SRC="/home/$USER/git/rcrs-adf-sample"
+	SRC="/home/$USER/git/Migly_src"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
@@ -227,7 +227,7 @@ fi
 #環境変数変更
 IFS=$'\n'
 
-[ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
+[ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #サーバーディレクトリの登録
 if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/start-comprun.sh ]]; then
@@ -790,7 +790,7 @@ rm src.log &>/dev/null
 touch src.log
 touch server.log
 
-if [ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
+if [ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
 
 	CurrentVer=1
 	update
@@ -935,7 +935,7 @@ proportion(){
 
 }
 
-[ -z $debug ] || [ ! $((`cat $(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $(echo $(basename $0)) | head -"$(grep -n '？↓' $(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
+[ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #エラーチェック
 if [ -f src.log ]; then
