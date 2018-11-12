@@ -9,3 +9,4 @@ Date,Score,Server,Agent,Map,Blockade
 2018/09/23_10:04, 5.981508295398198, git/roborescue-v1.2, git/rcrs-adf-sample, maps/gml/test/, no
 2018/09/23_10:06, 5.978186411962808, git/rcrs-server, git/rcrs-adf-sample, maps/gml/test, yes
 2018/09/23_10:11, 0.0, git/rcrs-server, git/rcrs-adf-sample, maps/gml/test, yes
+2018/11/12_19:52, 1.511978938694172, git/rcrs-server, git/Migly_src, maps/gml/test, no

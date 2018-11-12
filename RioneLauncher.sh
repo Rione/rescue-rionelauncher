@@ -213,7 +213,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1014
+debug=1029
 
 if [[ ! -z $1 ]]; then
 
@@ -1091,18 +1091,33 @@ lastline=`grep -e "FINISH" -n src.log | sed -e 's/:.*//g' | awk '{if (max<$1) ma
 #コンフィグのサイクル数読み込み
 config_cycle=$(cat $(echo $CONFIG | sed s@collapse.cfg@kernel.cfg@g) | grep "timesteps:" | awk '{print $2}')
 
+next_cycle=0
+
 while true
 do
 
 	kill_subwindow
 
+	cycle=$(cat $SERVER/boot/logs/traffic.log | grep -a "Timestep" | grep -a "took" | awk '{print $5}' | tail -n 1)
+
+	expr $cycle + 1 > /dev/null 2>&1
+
+	[ $? -eq 2 ] && continue
+
+	[ -z $cycle ] && cycle=0
+
+	if [[ $next_cycle -eq $cycle ]]; then
+
+		echo 'Time:' $cycle "#######################"
+		echo ""
+
+		next_cycle=$(($cycle + 1))
+
+	fi
+
 	tail -n $((`wc -l src.log | awk '{print $1}'` - $lastline)) src.log
 
 	lastline=$(wc -l src.log | awk '{print $1}')
-
-	cycle=$(grep -a "Timestep" $SERVER/boot/logs/traffic.log | tail -n 1 | awk '{print $5}')
-
-	[ -z $cycle ] && cycle=0
 
 	if [ $cycle -ge $config_cycle ]; then
 
