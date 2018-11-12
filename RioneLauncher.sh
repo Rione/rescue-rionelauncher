@@ -1108,8 +1108,8 @@ do
 
 	if [[ $next_cycle -eq $cycle ]]; then
 
-		echo 'Time:' $cycle "#######################"
-		echo ""
+		echo '**** Time:' $cycle '*************************'
+		echo 
 
 		next_cycle=$(($cycle + 1))
 
