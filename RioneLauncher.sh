@@ -215,7 +215,7 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1029
+debug=1037
 
 if [[ ! -z $1 ]]; then
 
@@ -894,7 +894,15 @@ com
 
 	bash compile.sh > $LOCATION/src.log 2>&1
 
-	bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/src.log 2>&1 &
+	if [[ -f 'start.sh' ]]; then
+
+		bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/src.log 2>&1 &
+	
+	else
+
+		bash ./launch.sh -all -local >> $LOCATION/src.log 2>&1 &
+
+	fi
 
 	#read waitsrc
 
