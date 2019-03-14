@@ -1,117 +1,17 @@
 Done.
-[ RCRS ADF Version 2.3.0 (build 20180514T081132Z) ]
+[ RCRS ADF Version 2.3.0 (build 20190221171246) ]
 
 [START ] Connect to server (host:localhost, port:7000)
-[FINISH] Connect PoliceOffice (success:0)
 [FINISH] Connect AmbulanceCentre (success:0)
 [FINISH] Connect FireStation (success:0)
-[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@73f4c8dc (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@6674a2fe (NON_PRECOMPUTE)
-[INFO  ] Connected - adf.agent.platoon.PlatoonFire@2c83cf81 (NON_PRECOMPUTE)
-[SampleKMeans] Cluster : 10
-[SampleKMeans] Cluster : 10
-[SampleKMeans] Cluster : 10
+[FINISH] Connect PoliceOffice (success:0)
+[INFO  ] Connected - adf.agent.platoon.PlatoonFire@75b2214e (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonPolice@11d1cb3 (NON_PRECOMPUTE)
+[INFO  ] Connected - adf.agent.platoon.PlatoonAmbulance@3866e311 (NON_PRECOMPUTE)
+[SampleKMeans] Cluster : 1
+[SampleKMeans] Cluster : 1
+[SampleKMeans] Cluster : 1
 [FINISH] Connect AmbulanceTeam (success:1)
 [FINISH] Connect FireBrigade (success:1)
 [FINISH] Connect PoliceForce (success:1)
 [FINISH] Done connecting to server (3 agents)
-279
-road now
-[274, 266, 971]
-
-279
-road now
-[274, 266, 971]
-
-279
-road now
-[274, 266, 971]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-274
-road now
-[255, 976, 279]
-
-266
-road now
-[269, 279]
-
-279
-road now
-[274, 266, 971]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-976
-road now
-[975, 255, 274, 929, 928, 927, 926, 925, 924, 923, 922, 921]
-
-274
-road now
-[255, 976, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
-266
-road now
-[269, 279]
-
