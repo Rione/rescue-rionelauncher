@@ -85,63 +85,41 @@ killcommand(){
 }
 
 last(){
-
     if [[ $phase -eq 1 ]]; then
-
         echo
         echo
         echo " シミュレーションを中断します...Σ(ﾟДﾟﾉ)ﾉ"
         echo
-
         if [[ -f $SERVER/boot/logs/kernel.log ]] && [[ ! -z `grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'` ]]; then
-
             echo
             echo "◆　これまでのスコア : "`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`
             echo
-
         fi
-
     fi
-
     killcommand
-
-  exit 1
-
+    exit 1
 }
 
 errerbreak(){
-
     echo " 内部で何らかのエラーが発生しました。"
     echo " シミュレーションを終了します....(｡-人-｡) ｺﾞﾒｰﾝ"
     echo
-
     killcommand
-
     exit 1
-
 }
 
 kill_subwindow(){
-
     if [[ -f $LOCATION/.signal ]]; then
-    
         last
-    
     fi
-
 }
 
 original_clear(){
-
     for ((i=1;i<`tput lines`;i++))
     do
-        
         echo ""
-        
     done
-    
     echo -e "\e[0;0H" #カーソルを0行目の0列目に戻す
-
 }
 
 update(){
@@ -153,12 +131,8 @@ update(){
 
     FILENAME=$LOCATION/$(echo "$0")
     #diffによるバージョンアップを検討
-    #diff <(cat RioneLauncher.sh | tail -n +25) <(curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh | tail -n +25)
-
-    histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
-    
-    if [[ ! -z $histry_Ver ]] && [[ ! `echo $histry_Ver | awk '{print $2}'` = $CurrentVer ]]; then
-
+    master_script=$(curl https://raw.githubusercontent.com/Ri--one/bash-rescue/feature/clean/RioneLauncher.sh)
+    if [[ ! -z $(diff <(cat $FILENAME | tail -n +$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')) <(echo "$master_script" | tail -n +$(echo "$master_script" | grep -n '？↓' | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'))) ]]; then
         echo
         echo ' ▶▶アップデートします。'
         echo
@@ -174,12 +148,12 @@ update(){
             #ユーザーデータ保持
             cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
             cat temp > $FILENAME
-            curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > temp
+            curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh > temp
             sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
             cat temp >> $FILENAME
         else
             #全上書き
-            curl `curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep RioneLauncher5-link | awk '{print $2}'` > $FILENAME
+            curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh > $FILENAME
 
         fi
         
@@ -195,9 +169,7 @@ update(){
         kill `ps | grep bash | awk '{print $1}'` >& /dev/null
 
     fi
-
     exit 1
-
 }
 
 ###########################################################################################################
