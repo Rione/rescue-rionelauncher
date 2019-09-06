@@ -813,7 +813,7 @@ sed -i "s/$(cat $START_LAUNCH | grep 'startSims')/startSims --nogui/g" $START_LA
 #サーバー起動
 if [ $os = "Linux" ]; then
 
-	gnome-terminal --geometry=60x6 -x  bash -c  "
+	gnome-terminal --tab --command bash -c  "
 
 		#[C+ctrl]検知
 		trap 'last2' {1,2,3}
@@ -875,28 +875,22 @@ echo
 com
 
 #ソース起動
-#gnome-terminal --geometry=10x10 -x  bash -c   "
+cd $SRC
 
-	cd $SRC
+echo
+echo -n "  コンパイル中..."
 
-	echo
-	echo -n "  コンパイル中..."
+bash compile.sh > $LOCATION/src.log 2>&1
 
-	bash compile.sh > $LOCATION/src.log 2>&1
+if [[ -f 'start.sh' ]]; then
 
-	if [[ -f 'start.sh' ]]; then
+	bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/src.log 2>&1 &
 
-		bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/src.log 2>&1 &
-	
-	else
+else
 
-		bash ./launch.sh -all -local >> $LOCATION/src.log 2>&1 &
+	bash ./launch.sh -all -local >> $LOCATION/src.log 2>&1 &
 
-	fi
-
-	#read waitsrc
-
-#"
+fi
 
 cd $LOCATION
 
