@@ -152,8 +152,8 @@ update(){
     echo
 
     FILENAME=$LOCATION/$(echo "$0")
-    #gitからコミット情報を抜き取る。
-    #curl https://github.com/Ri--one/bash-rescue/commits/master | grep '<a href="/Ri--one/bash-rescue/commit/' | sed 's@/@ @g' | sed 's@"@@g' | awk '{print $6}'
+    #diffによるバージョンアップを検討
+    #diff <(cat RioneLauncher.sh | tail -n +25) <(curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh | tail -n +25)
 
     histry_Ver=`curl --connect-timeout 1 -s https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt | grep "RioneLauncher5-newVersion"`
     
