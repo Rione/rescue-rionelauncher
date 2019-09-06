@@ -215,7 +215,6 @@ update &
 
 #条件変更シグナル
 ChangeConditions=0
-debug=1037
 
 if [[ ! -z $1 ]]; then
 
@@ -228,8 +227,6 @@ fi
 
 #環境変数変更
 IFS=$'\n'
-
-[ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #サーバーディレクトリの登録
 if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/start-comprun.sh ]]; then
@@ -792,13 +789,6 @@ rm src.log &>/dev/null
 touch src.log
 touch server.log
 
-if [ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ]; then
-
-	CurrentVer=1
-	update
-	
-fi
-
 #////////////////////////////////////////////////////////////////////////////////////////////////////
 
 phase=1
@@ -944,8 +934,6 @@ proportion(){
 	fi
 
 }
-
-[ -z $debug ] || [ ! $((`cat $LOCATION/$(echo $(basename $0)) | grep -v '^\s*#' | grep -c ""` - `cat $LOCATION/$(echo $(basename $0)) | head -"$(grep -n '？↓' $LOCATION/$(echo $(basename $0)) | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`)) -eq $debug ] && errerbreak
 
 #エラーチェック
 if [ -f src.log ]; then
