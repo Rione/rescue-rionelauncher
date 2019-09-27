@@ -1,1 +1,0 @@
-echo $((`cat RioneLauncher.sh | grep -v '^\s*#' | grep -c ""` - `cat RioneLauncher.sh | head -"$(grep -n '？↓' RioneLauncher.sh | sed -n 1P | sed 's/:/ /g' | awk '{print $1}')" | grep -v '^\s*#' | grep -c ""`))
