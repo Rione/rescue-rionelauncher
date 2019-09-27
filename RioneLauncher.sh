@@ -128,7 +128,7 @@ update(){
 
     FILENAME=$LOCATION/$(echo "$0")
     #diffによるバージョンアップを検討
-    history_url="https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt"
+    history_url="https://raw.githubusercontent.com/Ri--one/bash-rescue/master/history.txt"
     master_script=$(curl $(curl $history_url | grep 'RioneLauncher5-link' | awk '{print $2}'))
     if [[ ! -z $(diff <(cat $FILENAME | tail -n +$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')) <(echo "$master_script" | tail -n +$(echo "$master_script" | grep -n '？↓' | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'))) ]]; then
         
