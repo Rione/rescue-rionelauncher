@@ -181,16 +181,23 @@ echo " □ 　　- レスキューシミュレーション起動補助スクリ�
 echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
-if [[ ! $1 -eq 'debug' ]]; then
-    update &
-fi
-
 #条件変更シグナル
 ChangeConditions=0
+DEBUG_FLAG='false'
 
 if [[ ! -z $1 ]]; then
 
-    ChangeConditions=1
+    for i in $@; do
+        if [[ $i == 'debug' ]]; then
+            DEBUG_FLAG='true'
+        fi
+    done
+
+    if [[ $DEBUG_FLAG == 'false' ]]; then
+        update &
+        ChangeConditions=1
+    fi
+    
     echo
     echo 
     echo "  ● ディレクトリ検索中..."
