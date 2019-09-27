@@ -67,19 +67,16 @@ killcommand(){
     kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
     kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
 
-    rm $LOCATION/.histry_date &>/dev/null
+    rm $LOCATION/.history_date &>/dev/null
     rm $LOCATION/.signal &>/dev/null
 
     #updateスレッドが落ちるまで待機
     while :
     do
-
         if [[ `jobs | grep 'update' | awk '{print $2}'` = '実行中' ]]; then
             continue
         fi
-
         break
-
     done
 
 }
@@ -131,8 +128,10 @@ update(){
 
     FILENAME=$LOCATION/$(echo "$0")
     #diffによるバージョンアップを検討
-    master_script=$(curl https://raw.githubusercontent.com/Ri--one/bash-rescue/feature/clean/RioneLauncher.sh)
+    history_url="https://raw.githubusercontent.com/Ri--one/bash-rescue/master/histry.txt"
+    master_script=$(curl $(curl $history_url | grep 'RioneLauncher5-link' | awk '{print $2}'))
     if [[ ! -z $(diff <(cat $FILENAME | tail -n +$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')) <(echo "$master_script" | tail -n +$(echo "$master_script" | grep -n '？↓' | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'))) ]]; then
+        
         echo
         echo ' ▶▶アップデートします。'
         echo
@@ -144,23 +143,22 @@ update(){
 
         rm $FILENAME
 
-        if [[ -z `echo $histry_Ver | awk '{print $4}'` ]]; then
+        if [[ -z $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $4}') ]]; then
             #ユーザーデータ保持
             cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
             cat temp > $FILENAME
-            curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh > temp
+            echo "$master_script" > temp
             sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
             cat temp >> $FILENAME
         else
             #全上書き
-            curl https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh > $FILENAME
-
+            echo "$master_script" > $FILENAME
         fi
         
         rm temp
 
         echo
-        echo " ▶▶ Version "`echo $histry_Ver | awk '{print $2}'`" にアップデート完了しました。"
+        echo " ▶▶ Version "$(echo $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $2}'))" にアップデート完了しました。"
         echo " ▶▶ 再起動をお願いします。"
         echo
 
@@ -183,7 +181,9 @@ echo " □ 　　- レスキューシミュレーション起動補助スクリ�
 echo " □                                                                 □"
 echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □"
 
-update &
+if [[ ! $1 -eq 'debug' ]]; then
+    update &
+fi
 
 #条件変更シグナル
 ChangeConditions=0
@@ -785,7 +785,7 @@ sed -i "s/$(cat $START_LAUNCH | grep 'startSims')/startSims --nogui/g" $START_LA
 #サーバー起動
 if [ $os = "Linux" ]; then
 
-    gnome-terminal --tab --command bash -c  "
+    gnome-terminal --tab -x bash -c  "
 
         #[C+ctrl]検知
         trap 'last2' {1,2,3}
@@ -1088,7 +1088,7 @@ do
         echo
         echo "● シミュレーション終了！！"
         echo
-        echo "◆ 最終スコアは"`grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'`"でした。"
+        echo "◆ 最終スコアは"$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')"でした。"
         
         [ ! -f score.csv ] && echo 'Date, Score, Server, Agent, Map, Blockade' > score.csv
         [ $brockademenu = 'あり' ] && brockademenu=yes
