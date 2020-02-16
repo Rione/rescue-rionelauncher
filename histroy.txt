@@ -1,3 +1,0 @@
-■■■■■RioneLauncher-Update■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
-RioneLauncher5-newVersion 6.03
-RioneLauncher5-link https://raw.githubusercontent.com/Ri--one/bash-rescue/master/RioneLauncher.sh
