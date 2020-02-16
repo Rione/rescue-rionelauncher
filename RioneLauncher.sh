@@ -34,7 +34,7 @@ CurrentVer=7.00
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
-master_url="https://raw.githubusercontent.com/Rione/rionelauncher/develop/RioneLauncher.sh"
+master_url="https://raw.githubusercontent.com/Rione/rionelauncher/master/RioneLauncher.sh"
 
 if [[ ! -f $LOCATION/$(echo "$0") ]]; then
     echo 'スクリプトと同じディレクトリで実行してください。'
@@ -377,7 +377,7 @@ if [ -z $AGENT ] || [ $ChangeConditions -eq 1 ] || [ ! -f $AGENT/library/rescue/
         done
 
         echo
-        echo "上のリストからエージェントコードを選択してください。"
+        echo "上のリストからエージェントを選択してください。"
         echo "(※ 0を入力するとデフォルトになります)"
 
         while true
@@ -840,7 +840,7 @@ echo
 echo " ▼ 以下の環境を読み込んでいます..."
 echo
 echo "      サーバー ："`echo $SERVER | sed 's@/@ @g' | awk '{print $NF}'`
-echo "  エージェントコード ："`echo $AGENT | sed 's@/@ @g' | awk '{print $NF}'`
+echo "  エージェント ："`echo $AGENT | sed 's@/@ @g' | awk '{print $NF}'`
 echo "        マップ ："`echo $MAP | sed 's@/map/@@g' | sed 's@/maps@maps@g'`
 echo "  　　　　瓦礫 ："$brockademenu
 <<com
