@@ -150,9 +150,9 @@ update(){
         echo "$master_script" > $FILENAME
         partition_line=$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')
 
-        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'SERVER=' | grep -v '#')@SERVER=$SERVER@g" $FILENAME
-        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'AGENT=' | grep -v '#')@AGENT=$AGENT@g" $FILENAME
-        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'MAP=' | grep -v '#')@MAP=$MAP@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'SERVER=' | grep -v '#')@SERVER=\"$SERVER\"@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'AGENT=' | grep -v '#')@AGENT=\"$AGENT\"@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'MAP=' | grep -v '#')@MAP=\"$MAP\"@g" $FILENAME
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'brockade=' | grep -v '#')@brockade=$brockade@g" $FILENAME
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'LOOP=' | grep -v '#')@LOOP=$LOOP@g" $FILENAME
 
