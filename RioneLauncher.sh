@@ -674,72 +674,6 @@ policeforce_max=`echo "${scenariolist[*]}" | grep -c "policeforce"`
 firebrigade_max=`echo "${scenariolist[*]}" | grep -c "firebrigade"`
 ambulanceteam_max=`echo "${scenariolist[*]}" | grep -c "ambulanceteam"`
 
-#building&road
-#コメントアウトをとってもいいけど処理がめちゃくちゃ重くなりますぞ...
-
-#maplist=(`cat $MAP/map.gml`)
-
-#line_count=1
-#before_comment=0
-#after_comment=0
-
-#echo ${#maplist[@]}
-
-#for line in ${maplist[@]}; do
-
-#   if [ `echo $line | grep '*'` ] && [ $before_comment = 0 ]; then
-
-#       before_comment=$line_count
-
-#   fi
-
-
-#   if [ `echo $line | grep '*'` ] && [ $after_comment = 0 ]; then
-
-#       after_comment=$line_count
-
-#   fi
-
-
-#   if [ `echo $line | grep '//'` ] && [ $before_comment = 0 ]; then
-
-#       before_comment=$line_count
-#       after_comment=$line_count
-
-#   fi
-
-
-#   if [ ! $before_comment = 0 ] && [ ! $after_comment = 0 ]; then
-
-#       for ((i=before_comment; i <= $after_comment; i++)); do
-
-#           unset maplist[$(($i-1))]
-
-#       done
-
-#       before_comment=0
-#       after_comment=0
-
-#   fi
-
-#   line_count=$(($line_count+1))
-#echo $line_count
-#done
-
-#echo
-
-#echo text
-#for n in ${maplist[@]}; do
-
-#   echo $n>>tempfile
-
-#done
-
-#road_max=`grep -c "rcr:road gml:id=" $MAP/tempfile`
-#building_max=`grep -c "rcr:building gml:id=" $MAP/tempfile`
-
-#rm tempfile
-
 road_max=`grep -c "rcr:road gml:id=" $SERVER/$MAP/map.gml`
 building_max=`grep -c "rcr:building gml:id=" $SERVER/$MAP/map.gml`
 
@@ -767,6 +701,7 @@ IFS=$' \t\n'
 
 phase=1
 total_score=0
+scores=()
 
 for (( loop = 0; loop < $LOOP; loop++ )); do
 
@@ -779,7 +714,7 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
     touch server.log
 
     echo
-    echo "########## $(($loop+1)) / $LOOP start ##################"
+    echo "########## $(($loop+1)) / $LOOP Start ##################"
     echo
 
     cd $SERVER/boot/
@@ -1091,6 +1026,7 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
         if [ $cycle -ge 10 ]; then
 
             score=$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')
+            scores+=($score)
 
             echo
             echo "● シミュレーション終了！！"
@@ -1119,11 +1055,23 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
     done
 
     echo
-    echo "########## $(($loop+1)) / $LOOP finish ##################"
+    echo "########## $(($loop+1)) / $LOOP Finish ##################"
     echo
 
 done
 
+echo
+echo "● シミュレーション完全終了！！"
+echo
+echo "◆ 全スコア"
+echo
+
+for (( i = 0; i < $LOOP; i++ )); do
+    echo " $(($i+1)) : ${scores[$i]}"
+done
+
+echo
 echo "スコア平均 : $(echo $total_score / $LOOP | bc -l)"
+echo
 
 exit 1
