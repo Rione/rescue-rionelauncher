@@ -157,7 +157,7 @@ update(){
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'LOOP=' | grep -v '#')@LOOP=$LOOP@g" $FILENAME
 
         echo
-        echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
+        echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}' | sed 's@\"@@g')" にアップデート完了しました。"
         echo " ▶ ▶ 再起動をお願いします。"
         echo
 
