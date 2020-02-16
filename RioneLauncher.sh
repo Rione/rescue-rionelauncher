@@ -5,27 +5,27 @@
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
 #SERVER="/home/$USER/git/rcrs-server-master"
-SERVER="/home/$USER/git/rcrs-servers"
+SERVER="/home/$USER/git/rcrs-server"
 
 #使用するエージェントを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) AGENT="/home/migly/git/sample"
-AGENT="/home/$USER/git/rcrs-adf-samples"
+AGENT="/home/$USER/git/rcrs-adf-sample"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) MAP="maps/gml/Kobe2013/map"
-MAP="maps/gml/test/maps"
+MAP="maps/gml/test/map"
 
 #瓦礫の有無。固定する場合はtrue(瓦礫あり)もしくはfalse(瓦礫なし)を指定してください。
 #固定したくない場合は空白で大丈夫です。
 #brockade=false
-brockade=trues
+brockade=true
 
 #ループ数。何回同じ条件で実行するかを1以上の数字で指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) LOOP=10
-LOOP=2s
+LOOP=2
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
