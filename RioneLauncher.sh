@@ -22,6 +22,11 @@
     #brockade=false
     brockade=true
 
+#ループ数。何回同じ条件で実行するかを1以上の数字で指定してください。
+#固定したくない場合は空白で大丈夫です。
+##例) LOOP=10
+    LOOP=1
+
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
@@ -148,6 +153,7 @@ update(){
         sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SRC=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SRC@g" $FILENAME
         sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'MAP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$MAP@g" $FILENAME
         sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'brockade=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$brockade@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'LOOP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$LOOP@g" $FILENAME
 
         echo
         echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
