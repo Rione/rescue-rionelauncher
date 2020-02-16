@@ -4,28 +4,28 @@
 #使用するサーバーを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
-    #SERVER="/home/$USER/git/rcrs-server-master"
-    SERVER="/home/$USER/git/rcrs-server"
+#SERVER="/home/$USER/git/rcrs-server-master"
+SERVER="/home/$USER/git/rcrs-servers"
 
-#使用するソースを固定したい場合は、例のようにフルパスを指定してください。
+#使用するエージェントを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
-##例) SRC="/home/migly/git/sample"
-    SRC="/home/$USER/git/rcrs-adf-sample"
+##例) AGENT="/home/migly/git/sample"
+AGENT="/home/$USER/git/rcrs-adf-samples"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) MAP="maps/gml/Kobe2013/map"
-    MAP="maps/gml/test/map"
+MAP="maps/gml/test/maps"
 
 #瓦礫の有無。固定する場合はtrue(瓦礫あり)もしくはfalse(瓦礫なし)を指定してください。
 #固定したくない場合は空白で大丈夫です。
-    #brockade=false
-    brockade=true
+#brockade=false
+brockade=trues
 
 #ループ数。何回同じ条件で実行するかを1以上の数字で指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) LOOP=10
-    LOOP=1
+LOOP=2s
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
@@ -148,12 +148,13 @@ update(){
         killcommand
 
         echo "$master_script" > $FILENAME
+        partition_line=$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')
 
-        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SERVER=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SERVER@g" $FILENAME
-        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SRC=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SRC@g" $FILENAME
-        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'MAP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$MAP@g" $FILENAME
-        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'brockade=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$brockade@g" $FILENAME
-        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'LOOP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$LOOP@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'SERVER=' | grep -v '#')@SERVER=$SERVER@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'AGENT=' | grep -v '#')@AGENT=$AGENT@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'MAP=' | grep -v '#')@MAP=$MAP@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'brockade=' | grep -v '#')@brockade=$brockade@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'LOOP=' | grep -v '#')@LOOP=$LOOP@g" $FILENAME
 
         echo
         echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
@@ -243,7 +244,7 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         #ソート
         serverdirinfo=($(echo "${serverdirinfo[*]}" | sort -f))
 
-        #ソースリスト表示
+        #エージェントリスト表示
         line=0
 
         echo
@@ -314,86 +315,86 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
 
 fi
 
-#ソースディレクトリの登録
-if [ -z $SRC ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SRC/library/rescue/adf/adf-core.jar ]; then
+#エージェントディレクトリの登録
+if [ -z $AGENT ] || [ $ChangeConditions -eq 1 ] || [ ! -f $AGENT/library/rescue/adf/adf-core.jar ]; then
 
-    srcdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep config/module.cfg | sed 's@/config/module.cfg@@g'`) &>/dev/null
+    agentdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep config/module.cfg | sed 's@/config/module.cfg@@g'`) &>/dev/null
     
     original_clear
 
-    if [ ${#srcdirinfo[@]} -eq 0 ]; then
+    if [ ${#agentdirinfo[@]} -eq 0 ]; then
 
         echo
-        echo "ソースが見つかりません…ｷｮﾛ^(･д･｡)(｡･д･)^ｷｮﾛ"
+        echo "エージェントが見つかりません…ｷｮﾛ^(･д･｡)(｡･д･)^ｷｮﾛ"
         echo
         exit 1
 
     fi
 
-    if [ ! ${#srcdirinfo[@]} -eq 1 ]; then
+    if [ ! ${#agentdirinfo[@]} -eq 1 ]; then
 
-        #ソース名+ディレクトリ+文字数
+        #エージェント名+ディレクトリ+文字数
         count=0
-        for i in ${srcdirinfo[@]}; do
+        for i in ${agentdirinfo[@]}; do
         
-            srcname=`echo $i | sed 's@/@ @g' | awk '{print $NF}'`
+            agentname=`echo $i | sed 's@/@ @g' | awk '{print $NF}'`
 
-            srcdirinfo[$count]=$srcname"+@+"$i"+@+"${#srcname}
+            agentdirinfo[$count]=$agentname"+@+"$i"+@+"${#agentname}
 
             count=$(($count+1))
 
         done
         
         #文字数最大値取得
-        maxsrcname=`echo "${srcdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}'`
+        maxagentname=`echo "${agentdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}'`
 
         #ソート
-        srcdirinfo=(`echo "${srcdirinfo[*]}" | sort -f`)
+        agentdirinfo=(`echo "${agentdirinfo[*]}" | sort -f`)
 
-        #ソースリスト表示
+        #エージェントリスト表示
         line=0
 
         echo
-        echo "▼ ソースリスト"
+        echo "▼ エージェントリスト"
         echo
 
-        for i in ${srcdirinfo[@]};do
+        for i in ${agentdirinfo[@]};do
 
-            srcname=`echo ${i} | sed 's/+@+/ /g' | awk '{print $1}'`
-            srcdir=`echo ${i} | sed 's/+@+/ /g' | awk '{print $2}'`
+            agentname=`echo ${i} | sed 's/+@+/ /g' | awk '{print $1}'`
+            agentdir=`echo ${i} | sed 's/+@+/ /g' | awk '{print $2}'`
         
-            printf "%3d  %s" $((++line)) $srcname
+            printf "%3d  %s" $((++line)) $agentname
             
-            for ((space=$(($maxsrcname-${#srcname}+5)); space>0; space--))
+            for ((space=$(($maxagentname-${#agentname}+5)); space>0; space--))
             do
 
                 printf " "
 
             done
             
-            printf "%s\n" `echo $srcdir | sed "s@/home/$USER/@@g" | sed "s@$srcname@@g"`
+            printf "%s\n" `echo $agentdir | sed "s@/home/$USER/@@g" | sed "s@$agentname@@g"`
 
         done
 
         echo
-        echo "上のリストからソースコードを選択してください。"
+        echo "上のリストからエージェントコードを選択してください。"
         echo "(※ 0を入力するとデフォルトになります)"
 
         while true
         do
 
-            read srcnumber
+            read agentnumber
 
             #入力エラーチェック
-            if [ ! -z `expr "$srcnumber" : '\([0-9][0-9]*\)'` ] && [ 0 -lt $srcnumber ] && [ $srcnumber -le $line ]; then
+            if [ ! -z `expr "$agentnumber" : '\([0-9][0-9]*\)'` ] && [ 0 -lt $agentnumber ] && [ $agentnumber -le $line ]; then
 
                 #アドレス代入
-                SRC=`echo ${srcdirinfo[$(($srcnumber-1))]} | sed 's/+@+/ /g' | awk '{print $2}'`
+                AGENT=`echo ${agentdirinfo[$(($agentnumber-1))]} | sed 's/+@+/ /g' | awk '{print $2}'`
                 break
 
-            elif [ ! -z `expr "$srcnumber" : '\([0-9][0-9]*\)'` ] && [ $srcnumber -eq 0 ]; then
+            elif [ ! -z `expr "$agentnumber" : '\([0-9][0-9]*\)'` ] && [ $agentnumber -eq 0 ]; then
 
-                if [ -f $SRC/library/rescue/adf/adf-core.jar ]; then
+                if [ -f $AGENT/library/rescue/adf/adf-core.jar ]; then
 
                     break
 
@@ -414,7 +415,7 @@ if [ -z $SRC ] || [ $ChangeConditions -eq 1 ] || [ ! -f $SRC/library/rescue/adf/
 
     else
 
-        SRC=${srcdirinfo[0]}
+        AGENT=${agentdirinfo[0]}
 
     fi
 
@@ -763,9 +764,9 @@ done
 IFS=$' \t\n'
 
 rm server.log &>/dev/null
-rm src.log &>/dev/null
+rm agent.log &>/dev/null
 
-touch src.log
+touch agent.log
 touch server.log
 
 #////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -839,7 +840,7 @@ echo
 echo " ▼ 以下の環境を読み込んでいます..."
 echo
 echo "      サーバー ："`echo $SERVER | sed 's@/@ @g' | awk '{print $NF}'`
-echo "  ソースコード ："`echo $SRC | sed 's@/@ @g' | awk '{print $NF}'`
+echo "  エージェントコード ："`echo $AGENT | sed 's@/@ @g' | awk '{print $NF}'`
 echo "        マップ ："`echo $MAP | sed 's@/map/@@g' | sed 's@/maps@maps@g'`
 echo "  　　　　瓦礫 ："$brockademenu
 <<com
@@ -853,21 +854,21 @@ echo "    PoliceForce - "$policeforce_max
 echo
 com
 
-#ソース起動
-cd $SRC
+#エージェント起動
+cd $AGENT
 
 echo
 echo -n "  コンパイル中..."
 
-bash compile.sh > $LOCATION/src.log 2>&1
+bash compile.sh > $LOCATION/agent.log 2>&1
 
 if [[ -f 'start.sh' ]]; then
 
-    bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/src.log 2>&1 &
+    bash start.sh -1 -1 -1 -1 -1 -1 localhost >> $LOCATION/agent.log 2>&1 &
 
 else
 
-    bash ./launch.sh -all -local >> $LOCATION/src.log 2>&1 &
+    bash ./launch.sh -all -local >> $LOCATION/agent.log 2>&1 &
 
 fi
 
@@ -909,17 +910,17 @@ proportion(){
 }
 
 #エラーチェック
-if [ -f src.log ]; then
+if [ -f agent.log ]; then
 
     #errer
-    if [ `grep -c "Failed." src.log` -eq 1 ]; then
+    if [ `grep -c "Failed." agent.log` -eq 1 ]; then
 
         echo " エラー"
         echo
         echo
         echo " ＜エラー内容＞"
         echo
-        cat src.log
+        cat agent.log
         echo
         echo " コンパイルエラー...開始できませんでした...ｻｰｾﾝ( ・ω ・)ゞ"
         echo
@@ -931,7 +932,7 @@ if [ -f src.log ]; then
     fi
 
     #sucsess
-    if [ `grep -c "Done." src.log` -ge 1 ]; then
+    if [ `grep -c "Done." agent.log` -ge 1 ]; then
 
         echo "(*'-')b"
         echo
@@ -958,9 +959,9 @@ do
 
     fi
 
-    ambulanceteam_read=`grep -c "PlatoonAmbulance@" src.log`
-    firebrigade_read=`grep -c "PlatoonFire@" src.log`
-    policeforce_read=`grep -c "PlatoonPolice@" src.log`
+    ambulanceteam_read=`grep -c "PlatoonAmbulance@" agent.log`
+    firebrigade_read=`grep -c "PlatoonFire@" agent.log`
+    policeforce_read=`grep -c "PlatoonPolice@" agent.log`
     civilian_read=$((`cat server.log | grep "INFO launcher : Launching instance" | awk '{print $6}' | sed -e 's/[^0-9]//g' | awk '{if (max<$1) max=$1} END {print max}'`-1))
 
     if [ $civilian_read -lt 0 ]; then
@@ -1011,21 +1012,21 @@ do
     echo -e "\e[K\c"
 
 
-    if [ `grep -c "Loader is not found." src.log` -eq 1 ]; then
+    if [ `grep -c "Loader is not found." agent.log` -eq 1 ]; then
 
         errerbreak
 
     fi
 
-    if [ ! `grep -c "Done connecting to server" src.log` -eq 0 ]; then
+    if [ ! `grep -c "Done connecting to server" agent.log` -eq 0 ]; then
 
-        if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -eq 0 ]; then
+        if [ `cat agent.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -eq 0 ]; then
 
             errerbreak
 
         fi
 
-        if [ `cat src.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ]; then
+        if [ `cat agent.log | grep "Done connecting to server" | awk '{print $6}' | sed -e 's/(//g'` -gt 0 ]; then
 
             if [[ $START_LAUNCH = "start.sh" ]]; then
             
@@ -1056,8 +1057,8 @@ do
 
 done
 
-#src.logの読み込み
-lastline=`grep -e "FINISH" -n src.log | sed -e 's/:.*//g' | awk '{if (max<$1) max=$1} END {print max}'`
+#agent.logの読み込み
+lastline=`grep -e "FINISH" -n agent.log | sed -e 's/:.*//g' | awk '{if (max<$1) max=$1} END {print max}'`
 
 #コンフィグのサイクル数読み込み
 config_cycle=$(cat $(echo $CONFIG | sed s@collapse.cfg@kernel.cfg@g) | grep "timesteps:" | awk '{print $2}')
@@ -1086,9 +1087,9 @@ do
 
     fi
 
-    tail -n $((`wc -l src.log | awk '{print $1}'` - $lastline)) src.log
+    tail -n $((`wc -l agent.log | awk '{print $1}'` - $lastline)) agent.log
 
-    lastline=$(wc -l src.log | awk '{print $1}')
+    lastline=$(wc -l agent.log | awk '{print $1}')
 
     if [ $cycle -ge $config_cycle ]; then
 
@@ -1101,7 +1102,7 @@ do
         [ $brockademenu = 'あり' ] && brockademenu=yes
         [ $brockademenu = 'なし' ] && brockademenu=no
 
-        echo "$(date +%Y/%m/%d_%H:%M), $(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'), $(echo $SERVER | sed "s@/home/$USER/@@g"), $(echo $SRC | sed "s@/home/$USER/@@g"), $(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g'), $brockademenu" >> score.csv
+        echo "$(date +%Y/%m/%d_%H:%M), $(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}'), $(echo $SERVER | sed "s@/home/$USER/@@g"), $(echo $AGENT | sed "s@/home/$USER/@@g"), $(echo $MAP | sed 's@/map/@@g' | sed 's@/map@@g' | sed 's@/maps@maps@g'), $brockademenu" >> score.csv
         echo
         echo "スコアは'score.csv'に記録しました。"
         echo
