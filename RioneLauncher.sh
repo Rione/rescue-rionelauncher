@@ -5,22 +5,22 @@
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
     #SERVER="/home/$USER/git/rcrs-server-master"
-    SERVER="/home/$USER/git/rcrs-servers"
+    SERVER="/home/$USER/git/rcrs-server"
 
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-    SRC="/home/$USER/git/rcrs-adf-samples"
+    SRC="/home/$USER/git/rcrs-adf-sample"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) MAP="maps/gml/Kobe2013/map"
-    MAP="maps/gml/test/maps"
+    MAP="maps/gml/test/map"
 
 #瓦礫の有無。固定する場合はtrue(瓦礫あり)もしくはfalse(瓦礫なし)を指定してください。
 #固定したくない場合は空白で大丈夫です。
     #brockade=false
-    brockade=trues
+    brockade=true
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
@@ -30,6 +30,11 @@ os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
 master_url="https://raw.githubusercontent.com/Rione/rionelauncher/develop/RioneLauncher.sh"
+
+if [[ ! -f $LOCATION/$(echo "$0") ]]; then
+    echo 'スクリプトと同じディレクトリで実行してください。'
+    exit 0
+fi
 
 #[C+ctrl]検知
 trap 'last' {1,2,3,15}
@@ -59,14 +64,14 @@ killcommand(){
 
     fi
 
-    kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start-precompute.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "collapse.jar" | awk '{print $2}'` &>/dev/null
+    kill $(ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start-precompute.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "collapse.jar" | awk '{print $2}') &>/dev/null
     sleep 0.5
-    kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
+    kill $(ps aux | grep "compile.sh" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "$SERVER" | awk '{print $2}') &>/dev/null
 
     rm $LOCATION/.history_date &>/dev/null
     rm $LOCATION/.signal &>/dev/null
@@ -170,12 +175,24 @@ echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ �
 
 #条件変更シグナル
 ChangeConditions=0
+DEBUG_FLAG=false
 
 if [[ ! -z $1 ]]; then
-    ChangeConditions=1
+    if [[ $1 == 'debug' ]]; then
+        DEBUG_FLAG='true'
+        if [[ -z $2 ]]; then
+            ChangeConditions=0
+        else
+            ChangeConditions=1
+        fi
+    else
+        ChangeConditions=1
+    fi
 fi
 
-update &
+if [[ $DEBUG_FLAG == 'false' ]]; then
+    update &
+fi
 
 echo
 echo 
@@ -187,7 +204,7 @@ IFS=$'\n'
 #サーバーディレクトリの登録
 if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/start-comprun.sh ]]; then
 
-    serverdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g'`) &>/dev/null
+    serverdirinfo=($(find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g')) &>/dev/null
     
     original_clear
 
@@ -206,7 +223,7 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         count=0
         for i in ${serverdirinfo[@]}; do
         
-            mapname=`echo $i | sed 's@/@ @g' | awk '{print $NF}'`
+            mapname=$(echo $i | sed 's@/@ @g' | awk '{print $NF}')
 
             serverdirinfo[$count]=$mapname"+@+"$i"+@+"${#mapname}
 
@@ -215,10 +232,10 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         done
         
         #文字数最大値取得
-        maxservername=`echo "${serverdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}'`
+        maxservername=$(echo "${serverdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}')
 
         #ソート
-        serverdirinfo=(`echo "${serverdirinfo[*]}" | sort -f`)
+        serverdirinfo=($(echo "${serverdirinfo[*]}" | sort -f))
 
         #ソースリスト表示
         line=0
@@ -230,8 +247,8 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         for i in ${serverdirinfo[@]}
         do  
         
-            servername=`echo ${i} | sed 's/+@+/ /g' | awk '{print $1}'`
-            serverdir=`echo ${i} | sed 's/+@+/ /g' | awk '{print $2}'`
+            servername=$(echo ${i} | sed 's/+@+/ /g' | awk '{print $1}')
+            serverdir=$(echo ${i} | sed 's/+@+/ /g' | awk '{print $2}')
         
             printf "%3d  %s" $((++line)) $servername
             
@@ -242,7 +259,7 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
 
             done
             
-            printf "%s\n" `echo $serverdir | sed "s@/home/$USER/@@g" | sed "s@$servername@@g"`
+            printf "%s\n" $(echo $serverdir | sed "s@/home/$USER/@@g" | sed "s@$servername@@g")
 
         done
 
