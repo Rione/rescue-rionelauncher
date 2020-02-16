@@ -5,22 +5,22 @@
 #固定したくない場合は空白で大丈夫です。
 ##例) SERVER="/home/$USER/git/rcrs-server"
     #SERVER="/home/$USER/git/rcrs-server-master"
-    SERVER="/home/$USER/git/rcrs-server"
+    SERVER="/home/$USER/git/rcrs-servers"
 
 #使用するソースを固定したい場合は、例のようにフルパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) SRC="/home/migly/git/sample"
-    SRC="/home/$USER/git/rcrs-adf-sample"
+    SRC="/home/$USER/git/rcrs-adf-samples"
 
 #使用するマップを固定したい場合は、例のようにmapsディレクトリからのパスを指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) MAP="maps/gml/Kobe2013/map"
-    MAP="maps/gml/test/map"
+    MAP="maps/gml/test/maps"
 
 #瓦礫の有無。固定する場合はtrue(瓦礫あり)もしくはfalse(瓦礫なし)を指定してください。
 #固定したくない場合は空白で大丈夫です。
     #brockade=false
-    brockade=true
+    brockade=trues
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
@@ -138,7 +138,12 @@ update(){
         killcommand
 
         echo "$master_script" > $FILENAME
-        
+
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SERVER=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SERVER@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SRC=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SRC@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'MAP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$MAP@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'brockade=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$brockade@g" $FILENAME
+
         echo
         echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
         echo " ▶ ▶ 再起動をお願いします。"
