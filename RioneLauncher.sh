@@ -25,10 +25,11 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=6.04
+CurrentVer=7.00
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
+master_url="https://raw.githubusercontent.com/Rione/rionelauncher/develop/RioneLauncher.sh"
 
 #[C+ctrl]検知
 trap 'last' {1,2,3,15}
@@ -120,46 +121,27 @@ original_clear(){
 }
 
 update(){
-
     #自動アップデート
     echo
-    echo " ▶▶アップデート確認中..."
+    echo " ▶ ▶ アップデート確認中..."
     echo
 
     FILENAME=$LOCATION/$(echo "$0")
-    #diffによるバージョンアップを検討
-    history_url="https://raw.githubusercontent.com/Ri--one/bash-rescue/master/history.txt"
-    master_script=$(curl $(curl $history_url | grep 'RioneLauncher5-link' | awk '{print $2}'))
+    master_script=$(curl -s $master_url)
+
     if [[ ! -z $(diff <(cat $FILENAME | tail -n +$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')) <(echo "$master_script" | tail -n +$(echo "$master_script" | grep -n '？↓' | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'))) ]]; then
         
         echo
-        echo ' ▶▶アップデートします。'
+        echo ' ▶ ▶ アップデートします。'
         echo
 
         killcommand
 
-        IFS=$'\n'
-        cat $FILENAME > temp
-
-        rm $FILENAME
-
-        if [[ -z $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $4}') ]]; then
-            #ユーザーデータ保持
-            cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
-            cat temp > $FILENAME
-            echo "$master_script" > temp
-            sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
-            cat temp >> $FILENAME
-        else
-            #全上書き
-            echo "$master_script" > $FILENAME
-        fi
+        echo "$master_script" > $FILENAME
         
-        rm temp
-
         echo
-        echo " ▶▶ Version "$(echo $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $2}'))" にアップデート完了しました。"
-        echo " ▶▶ 再起動をお願いします。"
+        echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
+        echo " ▶ ▶ 再起動をお願いします。"
         echo
 
         sleep 1
@@ -183,26 +165,16 @@ echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ �
 
 #条件変更シグナル
 ChangeConditions=0
-DEBUG_FLAG='false'
 
 if [[ ! -z $1 ]]; then
-
-    for i in $@; do
-        if [[ $i == 'debug' ]]; then
-            DEBUG_FLAG='true'
-        fi
-    done
-
-    if [[ $DEBUG_FLAG == 'false' ]]; then
-        update &
-        ChangeConditions=1
-    fi
-    
-    echo
-    echo 
-    echo "  ● ディレクトリ検索中..."
-
+    ChangeConditions=1
 fi
+
+update &
+
+echo
+echo 
+echo "  ● ディレクトリ検索中..."
 
 #環境変数変更
 IFS=$'\n'
