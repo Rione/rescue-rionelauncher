@@ -25,10 +25,16 @@
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=6.04
+CurrentVer=7.00
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
+master_url="https://raw.githubusercontent.com/Rione/rionelauncher/develop/RioneLauncher.sh"
+
+if [[ ! -f $LOCATION/$(echo "$0") ]]; then
+    echo 'スクリプトと同じディレクトリで実行してください。'
+    exit 0
+fi
 
 #[C+ctrl]検知
 trap 'last' {1,2,3,15}
@@ -58,14 +64,14 @@ killcommand(){
 
     fi
 
-    kill `ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start-precompute.sh" | grep -v "gnome-terminal" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "collapse.jar" | awk '{print $2}'` &>/dev/null
+    kill $(ps aux | grep "start.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start-comprun.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start-precompute.sh" | grep -v "gnome-terminal" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "collapse.jar" | awk '{print $2}') &>/dev/null
     sleep 0.5
-    kill `ps aux | grep "compile.sh" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}'` &>/dev/null
-    kill `ps aux | grep "$SERVER" | awk '{print $2}'` &>/dev/null
+    kill $(ps aux | grep "compile.sh" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "start.sh -1 -1 -1 -1 -1 -1 localhost" | awk '{print $2}') &>/dev/null
+    kill $(ps aux | grep "$SERVER" | awk '{print $2}') &>/dev/null
 
     rm $LOCATION/.history_date &>/dev/null
     rm $LOCATION/.signal &>/dev/null
@@ -120,46 +126,32 @@ original_clear(){
 }
 
 update(){
-
     #自動アップデート
     echo
-    echo " ▶▶アップデート確認中..."
+    echo " ▶ ▶ アップデート確認中..."
     echo
 
     FILENAME=$LOCATION/$(echo "$0")
-    #diffによるバージョンアップを検討
-    history_url="https://raw.githubusercontent.com/Ri--one/bash-rescue/master/history.txt"
-    master_script=$(curl $(curl $history_url | grep 'RioneLauncher5-link' | awk '{print $2}'))
+    master_script=$(curl -s $master_url)
+
     if [[ ! -z $(diff <(cat $FILENAME | tail -n +$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}')) <(echo "$master_script" | tail -n +$(echo "$master_script" | grep -n '？↓' | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'))) ]]; then
         
         echo
-        echo ' ▶▶アップデートします。'
+        echo ' ▶ ▶ アップデートします。'
         echo
 
         killcommand
 
-        IFS=$'\n'
-        cat $FILENAME > temp
+        echo "$master_script" > $FILENAME
 
-        rm $FILENAME
-
-        if [[ -z $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $4}') ]]; then
-            #ユーザーデータ保持
-            cat temp | head -$(grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') > temp
-            cat temp > $FILENAME
-            echo "$master_script" > temp
-            sed -i 1,`grep -n '？↓' temp | sed 's/:/ /g' | sed -n 1P | awk '{print $1}'`d temp
-            cat temp >> $FILENAME
-        else
-            #全上書き
-            echo "$master_script" > $FILENAME
-        fi
-        
-        rm temp
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SERVER=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SERVER@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'SRC=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$SRC@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'MAP=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$MAP@g" $FILENAME
+        sed -i "/#/!s@$(cat $FILENAME | head -$(grep -n '？↓' $FILENAME | sed 's/:/ /g' | sed -n 1P | awk '{print $1}') | grep 'brockade=' | grep -v '#' | sed 's@"@@g' | sed 's@=@ @g' | awk '{print $2}')@$brockade@g" $FILENAME
 
         echo
-        echo " ▶▶ Version "$(echo $(curl $history_url | grep 'RioneLauncher5-newVersion' | awk '{print $2}'))" にアップデート完了しました。"
-        echo " ▶▶ 再起動をお願いします。"
+        echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}')" にアップデート完了しました。"
+        echo " ▶ ▶ 再起動をお願いします。"
         echo
 
         sleep 1
@@ -183,26 +175,28 @@ echo " □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ □ �
 
 #条件変更シグナル
 ChangeConditions=0
-DEBUG_FLAG='false'
+DEBUG_FLAG=false
 
 if [[ ! -z $1 ]]; then
-
-    for i in $@; do
-        if [[ $i == 'debug' ]]; then
-            DEBUG_FLAG='true'
+    if [[ $1 == 'debug' ]]; then
+        DEBUG_FLAG='true'
+        if [[ -z $2 ]]; then
+            ChangeConditions=0
+        else
+            ChangeConditions=1
         fi
-    done
-
-    if [[ $DEBUG_FLAG == 'false' ]]; then
-        update &
+    else
         ChangeConditions=1
     fi
-    
-    echo
-    echo 
-    echo "  ● ディレクトリ検索中..."
-
 fi
+
+if [[ $DEBUG_FLAG == 'false' ]]; then
+    update &
+fi
+
+echo
+echo 
+echo "  ● ディレクトリ検索中..."
 
 #環境変数変更
 IFS=$'\n'
@@ -210,7 +204,7 @@ IFS=$'\n'
 #サーバーディレクトリの登録
 if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/start-comprun.sh ]]; then
 
-    serverdirinfo=(`find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g'`) &>/dev/null
+    serverdirinfo=($(find ~/ -maxdepth 4 -type d -name ".*" -prune -o -type f -print | grep jars/rescuecore2.jar | sed 's@/jars/rescuecore2.jar@@g')) &>/dev/null
     
     original_clear
 
@@ -229,7 +223,7 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         count=0
         for i in ${serverdirinfo[@]}; do
         
-            mapname=`echo $i | sed 's@/@ @g' | awk '{print $NF}'`
+            mapname=$(echo $i | sed 's@/@ @g' | awk '{print $NF}')
 
             serverdirinfo[$count]=$mapname"+@+"$i"+@+"${#mapname}
 
@@ -238,10 +232,10 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         done
         
         #文字数最大値取得
-        maxservername=`echo "${serverdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}'`
+        maxservername=$(echo "${serverdirinfo[*]}" | sed 's/+@+/ /g' | awk '{if(m<$3) m=$3} END{print m}')
 
         #ソート
-        serverdirinfo=(`echo "${serverdirinfo[*]}" | sort -f`)
+        serverdirinfo=($(echo "${serverdirinfo[*]}" | sort -f))
 
         #ソースリスト表示
         line=0
@@ -253,8 +247,8 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
         for i in ${serverdirinfo[@]}
         do  
         
-            servername=`echo ${i} | sed 's/+@+/ /g' | awk '{print $1}'`
-            serverdir=`echo ${i} | sed 's/+@+/ /g' | awk '{print $2}'`
+            servername=$(echo ${i} | sed 's/+@+/ /g' | awk '{print $1}')
+            serverdir=$(echo ${i} | sed 's/+@+/ /g' | awk '{print $2}')
         
             printf "%3d  %s" $((++line)) $servername
             
@@ -265,7 +259,7 @@ if [[ -z $SERVER ]] || [[ $ChangeConditions -eq 1 ]] || [[ ! -f $SERVER/boot/sta
 
             done
             
-            printf "%s\n" `echo $serverdir | sed "s@/home/$USER/@@g" | sed "s@$servername@@g"`
+            printf "%s\n" $(echo $serverdir | sed "s@/home/$USER/@@g" | sed "s@$servername@@g")
 
         done
 
