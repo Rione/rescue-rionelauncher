@@ -27,14 +27,14 @@ brockade=true
 ##例) LOOP=10
 LOOP=1
 
-#１シミュレーションでのサイクル数
+#１回のシミュレーションでのサイクル上限数。デフォルトは0。
 #デバッグ用（一応使える）
 LIMIT_CYCLE=0
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=7.00
+CurrentVer=7.10
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -1059,7 +1059,7 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
 
         lastline=$(wc -l agent.log | awk '{print $1}')
 
-        if [ $cycle -ge $config_cycle ]; then
+        if [[ ! $LIMIT_CYCLE -eq 0 ]] && [[ $cycle -ge $LIMIT_CYCLE ]] || [[ $cycle -ge $config_cycle ]]; then
 
             score=$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')
             scores+=($score)
