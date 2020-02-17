@@ -25,7 +25,11 @@ brockade=true
 #ループ数。何回同じ条件で実行するかを1以上の数字で指定してください。
 #固定したくない場合は空白で大丈夫です。
 ##例) LOOP=10
-LOOP=2
+LOOP=1
+
+#１シミュレーションでのサイクル数
+#デバッグ用（一応使える）
+LIMIT_CYCLE=0
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
@@ -622,6 +626,38 @@ else
 
 fi
 
+#ループ回数選択
+if [ $LOOP -le 0 ] || [ -z $LOOP ] || [ $ChangeConditions -eq 1 ]; then
+    
+    original_clear
+    
+    echo
+    echo "何回実行しますか？(1以上)"
+
+    while true
+    do
+        read loopselect
+
+        #エラー入力チェック
+        if [[ -z $(echo "$loopselect" | grep "^[0-9]\+$") ]]; then
+            echo '数字を入力してください。'
+            continue
+        fi
+
+        if [ $loopselect -le 0 ];then
+            echo '1以上の数字を入力してください。'
+            continue
+        fi
+
+        LOOP=$loopselect
+        break
+
+    done
+    
+    original_clear
+
+fi
+
 #読み込み最大値取得
 #環境変数変更
 IFS=$' \n'
@@ -1023,7 +1059,7 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
 
         lastline=$(wc -l agent.log | awk '{print $1}')
 
-        if [ $cycle -ge 10 ]; then
+        if [ $cycle -ge $config_cycle ]; then
 
             score=$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')
             scores+=($score)
@@ -1058,12 +1094,14 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
     echo "########## $(($loop+1)) / $LOOP Finish ##################"
     echo
 
+    sleep 1
+
 done
 
 echo
-echo "● シミュレーション完全終了！！"
+echo "●  シミュレーション完全終了！！"
 echo
-echo "◆ 全スコア"
+echo "◆  全スコア一覧"
 echo
 
 for (( i = 0; i < $LOOP; i++ )); do
