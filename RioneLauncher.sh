@@ -29,12 +29,12 @@ LOOP=1
 
 #１回のシミュレーションでのサイクル上限数。デフォルトは0。
 #デバッグ用（一応使える）
-LIMIT_CYCLE=5
+LIMIT_CYCLE=0
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=7.11
+CurrentVer=7.12
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
@@ -159,6 +159,7 @@ update(){
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'MAP=' | grep -v '#')@MAP=\"$MAP\"@g" $FILENAME
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'brockade=' | grep -v '#')@brockade=$brockade@g" $FILENAME
         sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'LOOP=' | grep -v '#')@LOOP=$LOOP@g" $FILENAME
+        sed -i -e "/#/!s@$(cat $FILENAME | head -$partition_line | grep 'LIMIT_CYCLE=' | grep -v '#')@LIMIT_CYCLE=$LIMIT_CYCLE@g" $FILENAME
 
         echo
         echo " ▶ ▶ Version "$(cat $FILENAME | grep 'CurrentVer=' | sed 's@=@ @g' | awk '{print $2}' | sed 's@\"@@g')" にアップデート完了しました。"
