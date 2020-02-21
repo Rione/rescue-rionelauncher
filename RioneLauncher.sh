@@ -29,7 +29,7 @@ LOOP=1
 
 #１回のシミュレーションでのサイクル上限数。デフォルトは0。
 #デバッグ用（一応使える）
-LIMIT_CYCLE=0
+LIMIT_CYCLE=5
 
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
@@ -1061,12 +1061,16 @@ for (( loop = 0; loop < $LOOP; loop++ )); do
 
         if [[ ! $LIMIT_CYCLE -eq 0 ]] && [[ $cycle -ge $LIMIT_CYCLE ]] || [[ $cycle -ge $config_cycle ]]; then
 
-            score=$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')
-            scores+=($score)
-
             echo
             echo "● シミュレーション終了！！"
             echo
+
+            while [[ -z `echo $score | grep "^-\?[0-9]\+\.\?[0-9]*$"` ]]; do
+                score=$(grep -a -C 0 'Score:' $SERVER/boot/logs/kernel.log | tail -n 1 | awk '{print $5}')
+            done
+            
+            scores+=($score)
+
             echo "◆ 最終スコアは"$score"でした。"
             
             [ ! -f score.csv ] && echo 'Date, Score, Server, Agent, Map, Blockade' > score.csv
