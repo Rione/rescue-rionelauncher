@@ -34,7 +34,7 @@ LIMIT_CYCLE=5
 #/////////////////////////////////////////////////////////////
 #ここから先は改変しないでくだせぇ動作が止まっても知らないゾ？↓
 
-CurrentVer=7.10
+CurrentVer=7.11
 os=`uname`
 LOCATION=$(cd $(dirname $0); pwd)
 phase=0
